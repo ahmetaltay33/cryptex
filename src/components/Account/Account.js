@@ -63,7 +63,7 @@ export class Account extends Component {
         </TextBox>
         <TextBox name='Phone' mode='tel' placeholder='Telephone'>
         </TextBox>
-        <TextArea name='Desription' mode='text' placeholder='Enter desription'>
+        <TextArea name='Description' mode='text' placeholder='Enter description'>
         </TextArea>
         <DateBox name='UpdateTime' placeholder='Updated Time'>
         </DateBox>

@@ -6,3 +6,14 @@ export const getFormData = (form) => {
   });
   return object;
 };
+
+export const generateIdFieldFetchedData = (data) => {
+  const newData = [];
+  for (let key in data) {
+    newData.push({
+      ...data[key],
+      Id: key
+    });
+  }
+  return newData;
+}

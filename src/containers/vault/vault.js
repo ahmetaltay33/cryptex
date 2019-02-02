@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import classes from './Vault.module.css'
 import Button from 'devextreme-react/button'
 import Account from '../../components/Account/Account';
+import VaultGrid from '../../components/Vault/Vault'
 
 export class Vault extends Component {
   constructor(props) {
@@ -50,6 +51,7 @@ export class Vault extends Component {
           <Button text='Delete Selected Account' onClick={this.deleteAccountButtonCLickHandle} />
           <p>This is the vault page, mean is list of accounts.</p>
         </div>
+        <VaultGrid />
         {accountPopup}
       </React.Fragment>
     )
