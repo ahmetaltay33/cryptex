@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 //import PropTypes from 'prop-types'
 import TextBox from 'devextreme-react/text-box';
 import Button from 'devextreme-react/button';
-import Box, { Item } from 'devextreme-react/box'
+import Box, { Item } from 'devextreme-react/box';
 import classes from './Login.module.css';
 import axios from 'axios';
-import firebase from "firebase";
+import firebase from 'firebase';
 
 export class login extends Component {
     //static propTypes = {
@@ -33,10 +33,10 @@ export class login extends Component {
         });
     }
 
-    loginClickHandle(e) {
+    loginClickHandle() {
         firebase.auth().signInWithEmailAndPassword(this.state.eMail, this.state.password)
             .then(response => {
-                console.log(response);        
+                console.log(response);
             })
             .catch(error => {
                 console.log(error);
@@ -55,6 +55,7 @@ export class login extends Component {
                             //value={this.state.userName}
                             onValueChanged={this.eMailChangeHandle}
                             valueChangeEvent='input'
+                            mode='email'
                         />
                     </Item>
                     <Item ratio={1}>
@@ -62,6 +63,7 @@ export class login extends Component {
                             //value={this.state.password}
                             onValueChanged={this.passwordChangeHandle}
                             valueChangeEvent='input'
+                            mode='password'
                         />
                     </Item>
                     <Item ratio={1}>
@@ -73,4 +75,4 @@ export class login extends Component {
     }
 }
 
-export default login
+export default login;
