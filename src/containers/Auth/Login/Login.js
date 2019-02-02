@@ -1,8 +1,16 @@
 import React, { Component } from 'react'
 //import PropTypes from 'prop-types'
-import TextBox from 'devextreme-react/text-box'
-import Button from 'devextreme-react/button'
+import { TextBox, Button } from 'devextreme-react'
 import Box, { Item } from 'devextreme-react/box'
+import {
+  Validator,
+  RequiredRule,
+  CompareRule,
+  EmailRule,
+  PatternRule,
+  StringLengthRule,
+  RangeRule
+} from 'devextreme-react/validator';
 import classes from './Login.module.css'
 import axios from 'axios'
 import firebase from 'firebase'
@@ -58,8 +66,12 @@ export class login extends Component {
               mode='email'
               //validationError='E-mail address is not valid!'
               validationMessageMode='auto'
-              maxLength='100'
-            />
+              maxLength='100'>
+              <Validator>
+                <RequiredRule message={'Email is required'} />
+                <EmailRule message={'Email is invalid'} />
+              </Validator>
+            </TextBox>
           </Item>
           <Item ratio={1}>
             <TextBox
@@ -67,11 +79,17 @@ export class login extends Component {
               onValueChanged={this.passwordChangeHandle}
               valueChangeEvent='input'
               mode='password'
-              maxLength='10'
-            />
+              maxLength='10'>
+              <Validator>
+                <RequiredRule message={'Password is required'} />
+              </Validator>
+            </TextBox>
           </Item>
           <Item ratio={1}>
-            <Button text='Login' onClick={this.loginClickHandle} />
+            <Button
+              text='Login'
+              onClick={this.loginClickHandle}
+              type={'success'} />
           </Item>
         </Box>
       </React.Fragment>
