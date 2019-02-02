@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import DataGrid, { Column } from 'devextreme-react/data-grid'
 import firebase from 'firebase'
 import { generateIdFieldFetchedData } from '../../shared/utility';
+import PropTypes from 'prop-types'
 
 export class Vault extends Component {
   constructor(props) {
@@ -9,7 +10,7 @@ export class Vault extends Component {
 
     this.state = {
       records: {},
-      selectedId: null
+      //selectedId: null
     };
 
     this.onSelectionChanged = this.onSelectionChanged.bind(this);
@@ -56,11 +57,16 @@ export class Vault extends Component {
 
   onSelectionChanged({ selectedRowsData }) {
     const data = selectedRowsData[0];
-
-    this.setState({
+    /*this.setState({
       selectedId: data.Id
-    });
+    });*/
+    this.props.onSelectedChanged(data);
   }
 }
+
+Vault.propTypes = {
+  //selectedId: PropTypes.string,
+  onSelectedChanged: PropTypes.func.isRequired
+};
 
 export default Vault
