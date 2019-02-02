@@ -4,14 +4,12 @@ import { Validator, RequiredRule, CompareRule, EmailRule, PatternRule, StringLen
 import notify from 'devextreme/ui/notify';
 import firebase from 'firebase'
 import PropTypes from 'prop-types'
+import classes from './Account.module.css'
 
 export class Account extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isGoing: false,
-      numberOfGuests: 10,
-      mode: this.props.mode,
       accountId: this.props.accountId,
       data: {
         AccountType: null,
@@ -32,10 +30,13 @@ export class Account extends Component {
   }
 
   componentDidMount() {
-    if (this.state.accountId) {
-      const request = firebase.database().ref('vault/' + this.state.accountId);
+    // TODO: didmount dan çıkartılıp başka bir yere konulması gerekiyor. sadece ilk açılışta bir kere kayıt çekiyor sonra didmount tekrar tetiklenmiyor.
+    console.log('Account didmount ', this.props.accountId);
+    if (this.props.accountId) {
+      const request = firebase.database().ref('vault/' + this.props.accountId);
       request.on('value', (snapshot) => {
         const fetchedData = snapshot.val();
+        console.log(fetchedData);
         this.setState({
           data: fetchedData
         });
@@ -44,11 +45,9 @@ export class Account extends Component {
   }
 
   render() {
-    let saveButton = null;
-    if (this.state.mode === 'new' || this.state.mode === 'edit')
-      saveButton = <Button text='Save' type='success' useSubmitBehavior={true} />
+    const saveDisabled = !(this.props.mode === 'new' || this.props.mode === 'edit');
     return (
-      <form onSubmit={this.onFormSubmit}>
+      <form className={classes.Account} onSubmit={this.onFormSubmit}>
         <SelectBox name='AccountType' placeholder='Account Type'>
         </SelectBox>
         <TextBox name='UserName' mode='text' placeholder='Enter user name' value={this.state.data.UserName} valueChangeEvent='input' onValueChanged={this.onValueChangedHandle}>
@@ -77,7 +76,7 @@ export class Account extends Component {
         <CheckBox name='Active' text='Active' defaultValue={true} value={this.state.data.Active} onValueChanged={this.onActiveValueChangedHandle}>
         </CheckBox>
         <ValidationSummary id={'summary'}></ValidationSummary>
-        {saveButton}
+        <Button text='Save' type='success' useSubmitBehavior={true} disabled={saveDisabled} />
       </form>
     )
   }
@@ -111,7 +110,7 @@ export class Account extends Component {
   }
 
   onFormSubmit(e) {
-    switch (this.state.mode) {
+    switch (this.props.mode) {
       case 'new': {
         const key = firebase.database().ref().child('vault').push().key;
         let data = {};
@@ -127,9 +126,9 @@ export class Account extends Component {
                 at: 'center top'
               }
             }, 'success', 3000);
+            this.props.onFormSubmitted();
           }
         });
-        e.preventDefault();
         break;
       }
       case 'edit': {
@@ -137,12 +136,14 @@ export class Account extends Component {
       }
       default: break;
     }
+    e.preventDefault();
   }
 }
 
 Account.propTypes = {
   accountId: PropTypes.string,
   mode: PropTypes.oneOf(['open', 'edit', 'new']),
+  onFormSubmitted: PropTypes.func.isRequired
 };
 
 export default Account

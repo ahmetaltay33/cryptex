@@ -1,3 +1,7 @@
 .Vault{
   text-align: center
 }
+
+.Popup{
+  display: inline-block;
+}
