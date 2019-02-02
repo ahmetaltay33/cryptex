@@ -4,6 +4,8 @@ import TextBox from 'devextreme-react/text-box';
 import Button from 'devextreme-react/button';
 import Box, { Item } from 'devextreme-react/box'
 import classes from './Login.module.css';
+import axios from 'axios';
+import firebase from "firebase";
 
 export class login extends Component {
     //static propTypes = {
@@ -11,16 +13,17 @@ export class login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userName: '',
+            eMail: '',
             password: ''
         };
-        this.userNameChangeHandle = this.userNameChangeHandle.bind(this);
+        this.eMailChangeHandle = this.eMailChangeHandle.bind(this);
         this.passwordChangeHandle = this.passwordChangeHandle.bind(this);
+        this.loginClickHandle = this.loginClickHandle.bind(this);
     }
 
-    userNameChangeHandle(e) {
+    eMailChangeHandle(e) {
         this.setState({
-            userName: e.value
+            eMail: e.value
         });
     }
 
@@ -28,6 +31,16 @@ export class login extends Component {
         this.setState({
             password: e.value
         });
+    }
+
+    loginClickHandle(e) {
+        firebase.auth().signInWithEmailAndPassword(this.state.eMail, this.state.password)
+            .then(response => {
+                console.log(response);        
+            })
+            .catch(error => {
+                console.log(error);
+            });
     }
 
     render() {
@@ -40,7 +53,7 @@ export class login extends Component {
                     <Item ratio={1}>
                         <TextBox
                             //value={this.state.userName}
-                            onValueChanged={this.userNameChangeHandle}
+                            onValueChanged={this.eMailChangeHandle}
                             valueChangeEvent='input'
                         />
                     </Item>
@@ -52,7 +65,7 @@ export class login extends Component {
                         />
                     </Item>
                     <Item ratio={1}>
-                        <Button text='Login' />
+                        <Button text='Login' onClick={this.loginClickHandle} />
                     </Item>
                 </Box>
             </React.Fragment>
