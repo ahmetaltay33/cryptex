@@ -13,7 +13,7 @@ var config = {
     projectId: 'cryptex-72ee5',
     storageBucket: 'cryptex-72ee5.appspot.com',
     messagingSenderId: '1022914030119'
-  };
+};
 
 firebase.initializeApp(config);
 

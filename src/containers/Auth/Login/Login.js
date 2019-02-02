@@ -56,6 +56,9 @@ export class login extends Component {
                             onValueChanged={this.eMailChangeHandle}
                             valueChangeEvent='input'
                             mode='email'
+                            //validationError='E-mail address is not valid!'
+                            validationMessageMode='auto'
+                            maxLength='100'
                         />
                     </Item>
                     <Item ratio={1}>
@@ -64,6 +67,7 @@ export class login extends Component {
                             onValueChanged={this.passwordChangeHandle}
                             valueChangeEvent='input'
                             mode='password'
+                            maxLength='10'
                         />
                     </Item>
                     <Item ratio={1}>
