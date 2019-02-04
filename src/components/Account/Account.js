@@ -34,17 +34,14 @@ export class Account extends Component {
 
   componentDidUpdate(prevProps) {
     if ((this.props.mode === 'new') && (this.props.mode != prevProps.mode)) {
-      console.log('Account componentDidUpdate mode changed ', this.props.mode);
       this.setState({
         data: this.getEmptyData()
       });
     }
     if ((this.props.mode !== 'new') && (this.props.accountId != null) && (prevProps.accountId != this.props.accountId)) {
-      console.log('Account componentDidUpdate id changed ', this.props.accountId);
       const request = firebase.database().ref('vault/' + this.props.accountId);
-      request.on('value', (snapshot) => {
+      request.once('value', (snapshot) => {
         const fetchedData = snapshot.val();
-        console.log(fetchedData);
         this.setState({
           data: fetchedData
         });

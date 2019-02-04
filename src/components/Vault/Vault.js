@@ -16,11 +16,9 @@ export class Vault extends Component {
   }
 
   componentDidMount() {
-    console.log('Vault componentDidMount');
     const request = firebase.database().ref('vault');
     request.on('value', (snapshot) => {
       const data = generateIdFieldFetchedData(snapshot.val());
-      console.log('Vault componentDidMount', data.length);
       this.setState({
         records: data
       });
