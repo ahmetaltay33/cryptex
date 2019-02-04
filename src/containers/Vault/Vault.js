@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
-import classes from './Vault.module.css'
-import Button from 'devextreme-react/button'
-import Account from '../../components/Account/Account'
-import VaultGrid from '../../components/Vault/Vault'
-import { Popup } from 'devextreme-react/popup'
+import React, { Component } from 'react';
+import classes from './Vault.module.css';
+import Button from 'devextreme-react/button';
+import Account from '../../components/Account/Account';
+import VaultGrid from '../../components/Vault/Vault';
+import { Popup } from 'devextreme-react/popup';
 
 export class Vault extends Component {
   constructor(props) {
@@ -47,7 +47,7 @@ export class Vault extends Component {
           <Account mode={this.state.openMode} accountId={this.state.accountId} onFormSubmitted={this.hideInfo}/>
         </Popup>        
       </React.Fragment>
-    )
+    );
   }
 
   hideInfo() {
@@ -93,4 +93,4 @@ export class Vault extends Component {
   }
 }
 
-export default Vault
+export default Vault;

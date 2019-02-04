@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
-import DataGrid, { Column } from 'devextreme-react/data-grid'
-import firebase from 'firebase'
+import React, { Component } from 'react';
+import DataGrid, { Column } from 'devextreme-react/data-grid';
+import firebase from 'firebase';
 import { generateIdFieldFetchedData } from '../../shared/utility';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 
 export class Vault extends Component {
   constructor(props) {
@@ -69,4 +69,4 @@ Vault.propTypes = {
   onSelectedChanged: PropTypes.func.isRequired
 };
 
-export default Vault
+export default Vault;

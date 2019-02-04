@@ -16,4 +16,4 @@ export const generateIdFieldFetchedData = (data) => {
     });
   }
   return newData;
-}
+};

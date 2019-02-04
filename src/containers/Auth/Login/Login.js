@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 //import PropTypes from 'prop-types'
-import { TextBox, Button } from 'devextreme-react'
-import Box, { Item } from 'devextreme-react/box'
+import { TextBox, Button } from 'devextreme-react';
+import Box, { Item } from 'devextreme-react/box';
 import {
   Validator,
   RequiredRule,
@@ -11,9 +11,9 @@ import {
   StringLengthRule,
   RangeRule
 } from 'devextreme-react/validator';
-import classes from './Login.module.css'
-import axios from 'axios'
-import firebase from 'firebase'
+import classes from './Login.module.css';
+import axios from 'axios';
+import firebase from 'firebase';
 
 export class login extends Component {
   //static propTypes = {
@@ -32,13 +32,13 @@ export class login extends Component {
   eMailChangeHandle(e) {
     this.setState({
       eMail: e.value
-    })
+    });
   }
 
   passwordChangeHandle(e) {
     this.setState({
       password: e.value
-    })
+    });
   }
 
   loginClickHandle() {
@@ -48,7 +48,7 @@ export class login extends Component {
       })
       .catch(error => {
         console.log(error);
-      })
+      });
   }
 
   render() {
@@ -93,8 +93,8 @@ export class login extends Component {
           </Item>
         </Box>
       </React.Fragment>
-    )
+    );
   }
 }
 
-export default login
+export default login;

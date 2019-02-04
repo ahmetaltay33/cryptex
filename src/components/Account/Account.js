@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import { SelectBox, CheckBox, TextBox, TextArea, DateBox, Button, ValidationSummary } from 'devextreme-react';
 import { Validator, RequiredRule, CompareRule, EmailRule, PatternRule, StringLengthRule, RangeRule } from 'devextreme-react/validator';
 import notify from 'devextreme/ui/notify';
-import firebase from 'firebase'
-import PropTypes from 'prop-types'
-import classes from './Account.module.css'
+import firebase from 'firebase';
+import PropTypes from 'prop-types';
+import classes from './Account.module.css';
 
 export class Account extends Component {
   constructor(props) {
@@ -77,7 +77,7 @@ export class Account extends Component {
         <ValidationSummary id={'summary'}></ValidationSummary>
         <Button text='Save' type='success' useSubmitBehavior={true} disabled={saveDisabled} />
       </form>
-    )
+    );
   }
 
   onUpdateTimeValueChangedHandle(e) {
@@ -145,4 +145,4 @@ Account.propTypes = {
   onFormSubmitted: PropTypes.func.isRequired
 };
 
-export default Account
+export default Account;

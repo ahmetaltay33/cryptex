@@ -15,10 +15,7 @@
     "react"
   ],
   "rules": {
-    "indent": [
-      "warn",
-      2
-    ],
+    "indent": ["warn", 2, { "SwitchCase": 1 }],
     "linebreak-style": [
       "warn",
       "windows"
@@ -27,6 +24,7 @@
       "error",
       "single"
     ],
+    "semi": ["error", "always"],
     "no-unused-vars": "off",
     "no-console": "warn"
   }
