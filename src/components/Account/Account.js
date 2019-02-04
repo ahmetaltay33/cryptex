@@ -29,10 +29,9 @@ export class Account extends Component {
     this.onUpdateTimeValueChangedHandle = this.onUpdateTimeValueChangedHandle.bind(this);
   }
 
-  componentDidMount() {
-    // TODO: didmount dan çıkartılıp başka bir yere konulması gerekiyor. sadece ilk açılışta bir kere kayıt çekiyor sonra didmount tekrar tetiklenmiyor.
-    console.log('Account didmount ', this.props.accountId);
-    if (this.props.accountId) {
+  componentDidUpdate(prevProps) {
+    if (prevProps.accountId != this.props.accountId && this.props.accountId != null) {
+      console.log('Account componentDidUpdate id changed ', this.props.accountId);
       const request = firebase.database().ref('vault/' + this.props.accountId);
       request.on('value', (snapshot) => {
         const fetchedData = snapshot.val();

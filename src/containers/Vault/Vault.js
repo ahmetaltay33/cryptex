@@ -10,6 +10,7 @@ export class Vault extends Component {
     super(props);
     this.state = {
       popupVisible: false,
+      accountId: null,
       selectedId: null,
       openMode: null
     };
@@ -22,10 +23,16 @@ export class Vault extends Component {
   }
 
   render() {
-    console.log('Vault render', this.state.selectedId);
-    let accountPopup = null;
-    if (this.state.openMode != null) {
-      accountPopup =
+    return (
+      <React.Fragment>
+        <div className={classes.Vault}>
+          <Button text='Open Selected Account Detail' onClick={this.openAccountButtonCLickHandle} />
+          <Button text='Add New Account' onClick={this.newAccountButtonCLickHandle} />
+          <Button text='Edit Selected Account' onClick={this.editAccountButtonCLickHandle} />
+          <Button text='Delete Selected Account' onClick={this.deleteAccountButtonCLickHandle} />
+          <p>This is the vault page, mean is list of account informations.</p>
+        </div>
+        <VaultGrid onSelectedChanged={this.onSelectedChangedHandle} />
         <Popup
           className={classes.Popup}
           visible={this.state.popupVisible}
@@ -37,32 +44,21 @@ export class Vault extends Component {
           width={300}
           height={350}
         >
-          <Account mode={this.state.openMode} accountId={this.state.selectedId} onFormSubmitted={this.hideInfo}/>
-        </Popup>
-    }
-    return (
-      <React.Fragment>
-        <div className={classes.Vault}>
-          <Button text='Open Selected Account Detail' onClick={this.openAccountButtonCLickHandle} />
-          <Button text='Add New Account' onClick={this.newAccountButtonCLickHandle} />
-          <Button text='Edit Selected Account' onClick={this.editAccountButtonCLickHandle} />
-          <Button text='Delete Selected Account' onClick={this.deleteAccountButtonCLickHandle} />
-          <p>This is the vault page, mean is list of account informations.</p>
-        </div>
-        <VaultGrid onSelectedChanged={this.onSelectedChangedHandle} />
-        {accountPopup}
+          <Account mode={this.state.openMode} accountId={this.state.accountId} onFormSubmitted={this.hideInfo}/>
+        </Popup>        
       </React.Fragment>
     )
   }
 
   hideInfo() {
     this.setState({
-      popupVisible: false
+      popupVisible: false,
+      accountId: null
     });
   }
 
   onSelectedChangedHandle(data) {
-    console.log('Vault onSelectedChangedHandle', data.Id);
+    console.log('Vault onSelectedChangedHandle', data.id);
     this.setState({
       selectedId: data.Id
     });
@@ -71,21 +67,24 @@ export class Vault extends Component {
   openAccountButtonCLickHandle(e) {
     this.setState({
       openMode: 'open',
-      popupVisible: true
+      popupVisible: true,
+      accountId: this.state.selectedId
     });
   }
 
   newAccountButtonCLickHandle(e) {
     this.setState({
       openMode: 'new',
-      popupVisible: true
+      popupVisible: true,
+      accountId: this.state.selectedId
     });
   }
 
   editAccountButtonCLickHandle(e) {
     this.setState({
       openMode: 'edit',
-      popupVisible: true
+      popupVisible: true,
+      accountId: this.state.selectedId
     });
   }
 
