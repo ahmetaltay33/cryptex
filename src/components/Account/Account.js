@@ -30,7 +30,7 @@ export class Account extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.accountId != this.props.accountId && this.props.accountId != null) {
+    if ((this.props.accountId != null) && (prevProps.accountId != this.props.accountId)) {
       console.log('Account componentDidUpdate id changed ', this.props.accountId);
       const request = firebase.database().ref('vault/' + this.props.accountId);
       request.on('value', (snapshot) => {
@@ -109,32 +109,35 @@ export class Account extends Component {
   }
 
   onFormSubmit(e) {
+    let key;
     switch (this.props.mode) {
       case 'new': {
-        const key = firebase.database().ref().child('vault').push().key;
-        let data = {};
-        data['/vault/' + key] = this.state.data;
-        firebase.database().ref().update(data, (error) => {
-          if (error)
-            console.log(error);
-          else {
-            notify({
-              message: 'You have submitted the form',
-              position: {
-                my: 'center top',
-                at: 'center top'
-              }
-            }, 'success', 3000);
-            this.props.onFormSubmitted();
-          }
-        });
+        key = firebase.database().ref().child('vault').push().key;
         break;
       }
       case 'edit': {
+        key = this.props.accountId;
         break;
       }
-      default: break;
+      default:
+        return;
     }
+    let data = {};
+    data['/vault/' + key] = this.state.data;
+    firebase.database().ref().update(data, (error) => {
+      if (error)
+        console.log(error);
+      else {
+        notify({
+          message: 'You have submitted the form',
+          position: {
+            my: 'center top',
+            at: 'center top'
+          }
+        }, 'success', 3000);
+        this.props.onFormSubmitted();
+      }
+    });
     e.preventDefault();
   }
 }
