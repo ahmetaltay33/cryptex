@@ -10,16 +10,17 @@ export class Vault extends Component {
 
     this.state = {
       records: {},
-      //selectedId: null
     };
 
     this.onSelectionChanged = this.onSelectionChanged.bind(this);
   }
 
   componentDidMount() {
+    console.log('Vault componentDidMount');
     const request = firebase.database().ref('vault');
     request.on('value', (snapshot) => {
       const data = generateIdFieldFetchedData(snapshot.val());
+      console.log('Vault componentDidMount', data.length);
       this.setState({
         records: data
       });
@@ -57,15 +58,11 @@ export class Vault extends Component {
 
   onSelectionChanged({ selectedRowsData }) {
     const data = selectedRowsData[0];
-    /*this.setState({
-      selectedId: data.Id
-    });*/
     this.props.onSelectedChanged(data);
   }
 }
 
 Vault.propTypes = {
-  //selectedId: PropTypes.string,
   onSelectedChanged: PropTypes.func.isRequired
 };
 

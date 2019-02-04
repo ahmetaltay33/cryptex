@@ -10,18 +10,7 @@ export class Account extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      accountId: this.props.accountId,
-      data: {
-        AccountType: null,
-        UserName: null,
-        Password: null,
-        WebSite: null,
-        Email: null,
-        Phone: null,
-        Description: null,
-        UpdateTime: null,
-        Active: null
-      }
+      data: this.getEmptyData()
     };
     this.onFormSubmit = this.onFormSubmit.bind(this);
     this.onValueChangedHandle = this.onValueChangedHandle.bind(this);
@@ -29,8 +18,28 @@ export class Account extends Component {
     this.onUpdateTimeValueChangedHandle = this.onUpdateTimeValueChangedHandle.bind(this);
   }
 
+  getEmptyData() {
+    return {
+      AccountType: null,
+      UserName: null,
+      Password: null,
+      WebSite: null,
+      Email: null,
+      Phone: null,
+      Description: null,
+      UpdateTime: null,
+      Active: null
+    };
+  }
+
   componentDidUpdate(prevProps) {
-    if ((this.props.accountId != null) && (prevProps.accountId != this.props.accountId)) {
+    if ((this.props.mode === 'new') && (this.props.mode != prevProps.mode)) {
+      console.log('Account componentDidUpdate mode changed ', this.props.mode);
+      this.setState({
+        data: this.getEmptyData()
+      });
+    }
+    if ((this.props.mode !== 'new') && (this.props.accountId != null) && (prevProps.accountId != this.props.accountId)) {
       console.log('Account componentDidUpdate id changed ', this.props.accountId);
       const request = firebase.database().ref('vault/' + this.props.accountId);
       request.on('value', (snapshot) => {
