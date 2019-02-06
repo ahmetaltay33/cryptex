@@ -6,17 +6,20 @@ import firebase from 'firebase';
 import PropTypes from 'prop-types';
 import classes from './Account.module.css';
 import dxDialog from 'devextreme/ui/dialog';
+import { generateIdFieldFetchedData } from '../../shared/utility';
 
 export class Account extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      accountTypes: [{ Id: 0, Name: 'Empty', Description: 'Empty' }],
       data: this.getEmptyData()
     };
     this.onFormSubmit = this.onFormSubmit.bind(this);
     this.onValueChangedHandle = this.onValueChangedHandle.bind(this);
     this.onActiveValueChangedHandle = this.onActiveValueChangedHandle.bind(this);
     this.onUpdateTimeValueChangedHandle = this.onUpdateTimeValueChangedHandle.bind(this);
+    this.onAccountTypeValueChangedHandle = this.onAccountTypeValueChangedHandle.bind(this);
   }
 
   getEmptyData() {
@@ -50,11 +53,32 @@ export class Account extends Component {
     }
   }
 
+  componentDidMount() {
+    const request = firebase.database().ref('account_types');
+    request.once('value', (snapshot) => {
+      const fetchedData = generateIdFieldFetchedData(snapshot.val());
+      this.setState({
+        accountTypes: fetchedData
+      });
+    });
+  }
+
   render() {
     const saveDisabled = !(this.props.mode === 'new' || this.props.mode === 'edit');
     return (
       <form className={classes.Account} onSubmit={this.onFormSubmit}>
-        <SelectBox name='AccountType' placeholder='Account Type'>
+        <SelectBox name='AccountType'
+          //defaultValue={this.state.accountTypes[0].Id}
+          placeholder={'Choose Account Type'}
+          dataSource={this.state.accountTypes}
+          displayExpr={'Name'}
+          valueExpr={'Id'}
+          value={this.state.data.AccountType}
+          onValueChanged={this.onAccountTypeValueChangedHandle}
+        >
+          <Validator>
+            <RequiredRule message={'Account type is required'} />
+          </Validator>
         </SelectBox>
         <TextBox name='UserName' mode='text' placeholder='Enter user name' value={this.state.data.UserName} valueChangeEvent='input' onValueChanged={this.onValueChangedHandle}>
           <Validator>
@@ -85,6 +109,14 @@ export class Account extends Component {
         <Button text='Save' type='success' useSubmitBehavior={true} disabled={saveDisabled} />
       </form>
     );
+  }
+
+  onAccountTypeValueChangedHandle(e) {
+    var newData = { ...this.state.data };
+    newData.AccountType = e.value;
+    this.setState({
+      data: newData
+    });
   }
 
   onUpdateTimeValueChangedHandle(e) {
