@@ -6,7 +6,7 @@ import firebase from 'firebase';
 import PropTypes from 'prop-types';
 import classes from './Account.module.css';
 import dxDialog from 'devextreme/ui/dialog';
-import { generateIdFieldFetchedData } from '../../shared/utility';
+import { generateIdFieldFetchedData, getFormData } from '../../shared/utility';
 
 export class Account extends Component {
   constructor(props) {
@@ -31,8 +31,8 @@ export class Account extends Component {
       Email: null,
       Phone: null,
       Description: null,
-      UpdateTime: null,
-      Active: null
+      UpdateTime: new Date(),
+      Active: true
     };
   }
 
@@ -67,46 +67,50 @@ export class Account extends Component {
     const saveDisabled = !(this.props.mode === 'new' || this.props.mode === 'edit');
     return (
       <form className={classes.Account} onSubmit={this.onFormSubmit}>
-        <SelectBox name='AccountType'
-          //defaultValue={this.state.accountTypes[0].Id}
-          placeholder={'Choose Account Type'}
-          dataSource={this.state.accountTypes}
-          displayExpr={'Name'}
-          valueExpr={'Id'}
-          value={this.state.data.AccountType}
-          onValueChanged={this.onAccountTypeValueChangedHandle}
-        >
-          <Validator>
-            <RequiredRule message={'Account type is required'} />
-          </Validator>
-        </SelectBox>
-        <TextBox name='UserName' mode='text' placeholder='Enter user name' value={this.state.data.UserName} valueChangeEvent='input' onValueChanged={this.onValueChangedHandle}>
-          <Validator>
-            <RequiredRule message={'User name is required'} />
-          </Validator>
-        </TextBox>
-        <TextBox name='Password' mode='password' placeholder='Enter password' value={this.state.data.Password} valueChangeEvent='input' onValueChanged={this.onValueChangedHandle}>
-          <Validator>
-            <RequiredRule message={'Password is required'} />
-          </Validator>
-        </TextBox>
-        <TextBox name='WebSite' mode='url' placeholder='Web Site' value={this.state.data.WebSite} valueChangeEvent='input' onValueChanged={this.onValueChangedHandle}>
-        </TextBox>
-        <TextBox name='Email' mode='email' placeholder='E-Mail' value={this.state.data.Email} valueChangeEvent='input' onValueChanged={this.onValueChangedHandle}>
-          <Validator>
-            <EmailRule message={'Email is invalid'} />
-          </Validator>
-        </TextBox>
-        <TextBox name='Phone' mode='tel' placeholder='Phone Number' value={this.state.data.Phone} valueChangeEvent='input' onValueChanged={this.onValueChangedHandle}>
-        </TextBox>
-        <TextArea name='Description' mode='text' placeholder='Enter description' value={this.state.data.Description} valueChangeEvent='input' onValueChanged={this.onValueChangedHandle}>
-        </TextArea>
-        <DateBox name='UpdateTime' placeholder='Updated Time' value={this.state.data.UpdateTime} onValueChanged={this.onUpdateTimeValueChangedHandle}>
-        </DateBox>
-        <CheckBox name='Active' text='Active' defaultValue={true} value={this.state.data.Active} onValueChanged={this.onActiveValueChangedHandle}>
-        </CheckBox>
-        <ValidationSummary id={'summary'}></ValidationSummary>
-        <Button text='Save' type='success' useSubmitBehavior={true} disabled={saveDisabled} />
+        <div>
+          <SelectBox className={classes.Input} name='AccountType'
+            //defaultValue={this.state.accountTypes[0].Id}
+            placeholder={'Choose Account Type'}
+            dataSource={this.state.accountTypes}
+            displayExpr={'Name'}
+            valueExpr={'Id'}
+            value={this.state.data.AccountType}
+            onValueChanged={this.onAccountTypeValueChangedHandle}
+          >
+            <Validator>
+              <RequiredRule message={'Account type is required'} />
+            </Validator>
+          </SelectBox>
+          <TextBox className={classes.Input} name='UserName' mode='text' placeholder='Enter user name' value={this.state.data.UserName} valueChangeEvent='input' onValueChanged={this.onValueChangedHandle}>
+            <Validator>
+              <RequiredRule message={'User name is required'} />
+            </Validator>
+          </TextBox>
+          <TextBox className={classes.Input} name='Password' mode='password' placeholder='Enter password' value={this.state.data.Password} valueChangeEvent='input' onValueChanged={this.onValueChangedHandle}>
+            <Validator>
+              <RequiredRule message={'Password is required'} />
+            </Validator>
+          </TextBox>
+          <TextBox className={classes.Input} name='WebSite' mode='url' placeholder='Web Site' value={this.state.data.WebSite} valueChangeEvent='input' onValueChanged={this.onValueChangedHandle}>
+          </TextBox>
+          <TextBox className={classes.Input} name='Email' mode='email' placeholder='E-Mail' value={this.state.data.Email} valueChangeEvent='input' onValueChanged={this.onValueChangedHandle}>
+            <Validator>
+              <EmailRule message={'Email is invalid'} />
+            </Validator>
+          </TextBox>
+          <TextBox className={classes.Input} name='Phone' mode='tel' placeholder='Phone Number' value={this.state.data.Phone} valueChangeEvent='input' onValueChanged={this.onValueChangedHandle}>
+          </TextBox>
+          <TextArea className={classes.Input} name='Description' mode='text' placeholder='Enter description' value={this.state.data.Description} valueChangeEvent='input' onValueChanged={this.onValueChangedHandle}>
+          </TextArea>
+          <DateBox className={classes.Input} name='UpdateTime' placeholder='Updated Time' displayFormat={'dd.MM.yyyy HH:mm'} type={'datetime'} showClearButton={true} useMaskBehavior={true} value={this.state.data.UpdateTime} onValueChanged={this.onUpdateTimeValueChangedHandle}>
+          </DateBox>
+          <CheckBox className={classes.Input} name='Active' text='Active' defaultValue={true} value={this.state.data.Active} onValueChanged={this.onActiveValueChangedHandle}>
+          </CheckBox>
+        </div>
+        <div className={'dx-fieldset'}>
+          <ValidationSummary id={'summary'}></ValidationSummary>
+          <Button className={classes.Button} text='Save' type='success' useSubmitBehavior={true} disabled={saveDisabled} />
+        </div>
       </form>
     );
   }
@@ -148,6 +152,8 @@ export class Account extends Component {
   }
 
   onFormSubmit(e) {
+    const formData = getFormData(e.target);
+    console.log(formData);
     let key;
     switch (this.props.mode) {
       case 'new': {

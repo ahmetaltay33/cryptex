@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import DataGrid, { Column } from 'devextreme-react/data-grid';
+import DataGrid, { Column, ColumnChooser, ColumnFixing } from 'devextreme-react/data-grid';
 import firebase from 'firebase';
 import { generateIdFieldFetchedData } from '../../shared/utility';
 import PropTypes from 'prop-types';
@@ -10,19 +10,27 @@ export class Vault extends Component {
 
     this.state = {
       records: {},
+      accountTypes: {}
     };
 
     this.onSelectionChanged = this.onSelectionChanged.bind(this);
   }
 
   componentDidMount() {
-    const request = firebase.database().ref('vault');
-    request.on('value', (snapshot) => {
-      const data = generateIdFieldFetchedData(snapshot.val());
+    const vaultReq = firebase.database().ref('vault');
+    vaultReq.on('value', (snapshot) => {
+      const vaultData = generateIdFieldFetchedData(snapshot.val());
       this.setState({
-        records: data
+        records: vaultData
       });
     });
+    const accountTypesReq = firebase.database().ref('account_types');
+    accountTypesReq.once('value', (snapshot) => {
+      const accountTypesData = generateIdFieldFetchedData(snapshot.val());
+      this.setState({
+        accountTypes: accountTypesData
+      });
+    });    
   }
 
   render() {
@@ -36,19 +44,32 @@ export class Vault extends Component {
           hoverStateEnabled={true}
           allowColumnResizing={true}
           columnResizingMode='nextColumn'
+          allowColumnReordering={true}
           columnAutoWidth={true}
           onSelectionChanged={this.onSelectionChanged}
+          showColumnLines={true}
+          showRowLines={true}
+          rowAlternationEnabled={true}
         >
-          <Column dataField={'Id'} caption={'Key'} width={70} />
-          <Column dataField={'AccountType'} caption={'Account Type'} />
-          <Column dataField={'UserName'} caption={'User Name'} />
-          <Column dataField={'Password'} />
+          <ColumnChooser enabled={true} />
+          <ColumnFixing enabled={true} />
+          <Column dataField={'Id'} caption={'Key'} visible={false}/>
+          <Column dataField={'AccountType'} caption={'Account Type'}
+            lookup={{
+              dataSource: this.state.accountTypes,
+              displayExpr: 'Name',
+              valueExpr: 'Id'
+            }}
+          >
+          </Column>
+          <Column dataField={'UserName'} caption={'User Name'} visible={false} />
+          <Column dataField={'Password'} visible={false} />
           <Column dataField={'WebSite'} caption={'Web Site'} width={180} />
-          <Column dataField={'Email'} caption={'E-Mail'} />
-          <Column dataField={'Phone'} />
+          <Column dataField={'Email'} caption={'E-Mail'} visible={false} />
+          <Column dataField={'Phone'} visible={false} />
           <Column dataField={'Description'} />
+          <Column dataField={'UpdateTime'} caption={'Update Time'} dataType={'datetime'} />
           <Column dataField={'Active'} dataType={'boolean'} />
-          <Column dataField={'UpdateTime'} caption={''} dataType={'date'} />
         </DataGrid>
       </React.Fragment>
     );

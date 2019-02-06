@@ -1,16 +1,8 @@
 import React, { Component } from 'react';
-//import PropTypes from 'prop-types'
+//import PropTypes from 'prop-types';
 import { TextBox, Button } from 'devextreme-react';
 import Box, { Item } from 'devextreme-react/box';
-import {
-  Validator,
-  RequiredRule,
-  CompareRule,
-  EmailRule,
-  PatternRule,
-  StringLengthRule,
-  RangeRule
-} from 'devextreme-react/validator';
+import { Validator, RequiredRule, CompareRule, EmailRule, PatternRule, StringLengthRule, RangeRule } from 'devextreme-react/validator';
 import classes from './Login.module.css';
 import axios from 'axios';
 import firebase from 'firebase';
