@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import 'devextreme/dist/css/dx.common.css';
-import 'devextreme/dist/css/dx.dark.compact.css';
+import 'devextreme/dist/css/dx.material.orange.light.css';
 import firebase from 'firebase';
 
 var config = {

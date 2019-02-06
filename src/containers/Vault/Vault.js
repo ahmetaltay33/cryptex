@@ -6,6 +6,7 @@ import VaultGrid from '../../components/Vault/Vault';
 import { Popup } from 'devextreme-react/popup';
 import notify from 'devextreme/ui/notify';
 import firebase from 'firebase';
+import dxDialog from 'devextreme/ui/dialog';
 
 export class Vault extends Component {
   constructor(props) {
@@ -43,8 +44,6 @@ export class Vault extends Component {
           closeOnOutsideClick={true}
           showTitle={true}
           title={'Account Detail'}
-          width={300}
-          height={350}
         >
           <Account mode={this.state.openMode} accountId={this.state.accountId} onFormSubmitted={this.hideInfo} />
         </Popup>
@@ -92,20 +91,25 @@ export class Vault extends Component {
   }
 
   deleteAccountButtonCLickHandle(e) {
-    firebase.database().ref('vault/' + this.state.selectedId).remove((error) => {
-      if (error) {
-        console.log(error);
-      }
-      else {
-        notify({
-          message: 'Record deleted was successfully',
-          position: {
-            my: 'center top',
-            at: 'center top'
+    dxDialog.confirm('Do you want to delete selected record?', 'Delete record')
+      .done((dialogResult) => {
+        if (!dialogResult)
+          return;
+        firebase.database().ref('vault/' + this.state.selectedId).remove((error) => {
+          if (error) {
+            dxDialog.alert((error));
           }
-        }, 'success', 3000);
-      }
-    });
+          else {
+            notify({
+              message: 'Record deleted was successfully',
+              position: {
+                my: 'center top',
+                at: 'center top'
+              }
+            }, 'success', 3000);
+          }
+        });
+      });
   }
 }
 

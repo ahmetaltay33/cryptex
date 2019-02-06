@@ -5,6 +5,7 @@ import notify from 'devextreme/ui/notify';
 import firebase from 'firebase';
 import PropTypes from 'prop-types';
 import classes from './Account.module.css';
+import dxDialog from 'devextreme/ui/dialog';
 
 export class Account extends Component {
   constructor(props) {
@@ -132,7 +133,7 @@ export class Account extends Component {
     data['/vault/' + key] = this.state.data;
     firebase.database().ref().update(data, (error) => {
       if (error)
-        console.log(error);
+        dxDialog.alert(error);
       else {
         notify({
           message: 'You have submitted the form',
