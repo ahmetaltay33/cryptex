@@ -3,7 +3,7 @@ import { TextBox, Button } from 'devextreme-react';
 import Box, { Item } from 'devextreme-react/box';
 import { Validator, RequiredRule, CompareRule, EmailRule, PatternRule, StringLengthRule, RangeRule } from 'devextreme-react/validator';
 import classes from './Login.module.css';
-import firebase, { auth } from 'firebase';
+import firebase from 'firebase';
 import { dxAlert } from '../../../shared/dxUtility';
 
 export class login extends Component {
@@ -116,7 +116,6 @@ export class login extends Component {
   checkSignOutClickHandle(e) {
     firebase.auth().signOut()
       .then(response => {
-        console.log(response);
         dxAlert('Successfully', 'Sign Out');
       })
       .catch(error => {
