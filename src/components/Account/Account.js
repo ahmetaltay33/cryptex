@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { SelectBox, CheckBox, TextBox, TextArea, DateBox, Button, ValidationSummary } from 'devextreme-react';
-import { Validator, RequiredRule, CompareRule, EmailRule, PatternRule, StringLengthRule, RangeRule } from 'devextreme-react/validator';
-import notify from 'devextreme/ui/notify';
+import { Validator, RequiredRule, CompareRule, EmailRule, PatternRule, StringLengthRule, RangeRule, NumericRule } from 'devextreme-react/validator';
 import firebase from 'firebase';
 import PropTypes from 'prop-types';
 import classes from './Account.module.css';
-import dxDialog from 'devextreme/ui/dialog';
 import { generateIdFieldFetchedData, getFormData } from '../../shared/utility';
+import { dxNotify, dxAlert } from '../../shared/dxUtility';
 
 export class Account extends Component {
   constructor(props) {
@@ -67,50 +66,46 @@ export class Account extends Component {
     const saveDisabled = !(this.props.mode === 'new' || this.props.mode === 'edit');
     return (
       <form className={classes.Account} onSubmit={this.onFormSubmit}>
-        <div>
-          <SelectBox className={classes.Input} name='AccountType'
-            //defaultValue={this.state.accountTypes[0].Id}
-            placeholder={'Choose Account Type'}
-            dataSource={this.state.accountTypes}
-            displayExpr={'Name'}
-            valueExpr={'Id'}
-            value={this.state.data.AccountType}
-            onValueChanged={this.onAccountTypeValueChangedHandle}
-          >
-            <Validator>
-              <RequiredRule message={'Account type is required'} />
-            </Validator>
-          </SelectBox>
-          <TextBox className={classes.Input} name='UserName' mode='text' placeholder='Enter user name' value={this.state.data.UserName} valueChangeEvent='input' onValueChanged={this.onValueChangedHandle}>
-            <Validator>
-              <RequiredRule message={'User name is required'} />
-            </Validator>
-          </TextBox>
-          <TextBox className={classes.Input} name='Password' mode='password' placeholder='Enter password' value={this.state.data.Password} valueChangeEvent='input' onValueChanged={this.onValueChangedHandle}>
-            <Validator>
-              <RequiredRule message={'Password is required'} />
-            </Validator>
-          </TextBox>
-          <TextBox className={classes.Input} name='WebSite' mode='url' placeholder='Web Site' value={this.state.data.WebSite} valueChangeEvent='input' onValueChanged={this.onValueChangedHandle}>
-          </TextBox>
-          <TextBox className={classes.Input} name='Email' mode='email' placeholder='E-Mail' value={this.state.data.Email} valueChangeEvent='input' onValueChanged={this.onValueChangedHandle}>
-            <Validator>
-              <EmailRule message={'Email is invalid'} />
-            </Validator>
-          </TextBox>
-          <TextBox className={classes.Input} name='Phone' mode='tel' placeholder='Phone Number' value={this.state.data.Phone} valueChangeEvent='input' onValueChanged={this.onValueChangedHandle}>
-          </TextBox>
-          <TextArea className={classes.Input} name='Description' mode='text' placeholder='Enter description' value={this.state.data.Description} valueChangeEvent='input' onValueChanged={this.onValueChangedHandle}>
-          </TextArea>
-          <DateBox className={classes.Input} name='UpdateTime' placeholder='Updated Time' displayFormat={'dd.MM.yyyy HH:mm'} type={'datetime'} showClearButton={true} useMaskBehavior={true} value={this.state.data.UpdateTime} onValueChanged={this.onUpdateTimeValueChangedHandle}>
-          </DateBox>
-          <CheckBox className={classes.Input} name='Active' text='Active' defaultValue={true} value={this.state.data.Active} onValueChanged={this.onActiveValueChangedHandle}>
-          </CheckBox>
-        </div>
-        <div className={'dx-fieldset'}>
-          <ValidationSummary id={'summary'}></ValidationSummary>
-          <Button className={classes.Button} text='Save' type='success' useSubmitBehavior={true} disabled={saveDisabled} />
-        </div>
+        <SelectBox className={classes.Input} name='AccountType'
+          //defaultValue={this.state.accountTypes[0].Id}
+          placeholder={'Choose Account Type'}
+          dataSource={this.state.accountTypes}
+          displayExpr={'Name'}
+          valueExpr={'Id'}
+          value={this.state.data.AccountType}
+          onValueChanged={this.onAccountTypeValueChangedHandle}
+        >
+          <Validator>
+            <RequiredRule message={'Account type is required'} />
+          </Validator>
+        </SelectBox>
+        <TextBox className={classes.Input} name='UserName' mode='text' placeholder='Enter user name' value={this.state.data.UserName} valueChangeEvent='input' onValueChanged={this.onValueChangedHandle}>
+          <Validator>
+            <RequiredRule message={'User name is required'} />
+          </Validator>
+        </TextBox>
+        <TextBox className={classes.Input} name='Password' mode='password' placeholder='Enter password' value={this.state.data.Password} valueChangeEvent='input' onValueChanged={this.onValueChangedHandle}>
+          <Validator>
+            <RequiredRule message={'Password is required'} />
+          </Validator>
+        </TextBox>
+        <TextBox className={classes.Input} name='WebSite' mode='url' placeholder='Web Site' value={this.state.data.WebSite} valueChangeEvent='input' onValueChanged={this.onValueChangedHandle}>
+        </TextBox>
+        <TextBox className={classes.Input} name='Email' mode='email' placeholder='E-Mail' value={this.state.data.Email} valueChangeEvent='input' onValueChanged={this.onValueChangedHandle}>
+          <Validator>
+            <EmailRule message={'Email is invalid'} />
+          </Validator>
+        </TextBox>
+        <TextBox className={classes.Input} name='Phone' mode='tel' placeholder='Phone Number' maxLength={10} value={this.state.data.Phone} valueChangeEvent='input' onValueChanged={this.onValueChangedHandle}>
+          <Validator>
+            <NumericRule message={'Phone number is invalid. You should enter only numeric value.'} />
+          </Validator>
+        </TextBox>
+        <TextArea className={classes.Input} name='Description' mode='text' placeholder='Enter description' value={this.state.data.Description} valueChangeEvent='input' onValueChanged={this.onValueChangedHandle} />
+        <DateBox className={classes.Input} name='UpdateTime' placeholder='Updated Time' displayFormat={'dd.MM.yyyy HH:mm'} type={'datetime'} showClearButton={true} useMaskBehavior={true} value={this.state.data.UpdateTime} onValueChanged={this.onUpdateTimeValueChangedHandle} />
+        <CheckBox className={classes.Input} name='Active' text='Active' defaultValue={true} value={this.state.data.Active} onValueChanged={this.onActiveValueChangedHandle} />
+        <ValidationSummary id={'summary'} />
+        <Button className={classes.Button} text='Save' type='success' useSubmitBehavior={true} disabled={saveDisabled} />
       </form>
     );
   }
@@ -152,8 +147,6 @@ export class Account extends Component {
   }
 
   onFormSubmit(e) {
-    const formData = getFormData(e.target);
-    console.log(formData);
     let key;
     switch (this.props.mode) {
       case 'new': {
@@ -171,15 +164,9 @@ export class Account extends Component {
     data['/vault/' + key] = this.state.data;
     firebase.database().ref().update(data, (error) => {
       if (error)
-        dxDialog.alert(error);
+        dxAlert(error);
       else {
-        notify({
-          message: 'You have submitted the form',
-          position: {
-            my: 'center top',
-            at: 'center top'
-          }
-        }, 'success', 3000);
+        dxNotify('You have saved changes successfully.');
         this.props.onFormSubmitted();
       }
     });
