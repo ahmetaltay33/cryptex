@@ -13,8 +13,12 @@ export const dxNotify = (message, type = 'success') => {
   }, 'success', 3000);*/
 };
 
-export const dxAlert = (message = '') => {
-  dialog.alert(message);
+export const dxAlert = (message = '', tittle = '', onOkClickHandle = null) => {
+  dialog.alert(message, tittle)
+    .done(() => {
+      if (onOkClickHandle)
+        onOkClickHandle();
+    });
 };
 
 export const dxConfirm = (message = '', tittle = '', onYesClickHandle = null, onNoClickHandle = null) => {

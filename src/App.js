@@ -4,7 +4,7 @@ import Vault from './containers/Vault/Vault';
 
 class App extends Component {
   render() {
-    const IsAuthenticated = true;
+    const IsAuthenticated = false;
     let content = <Login />;
     if(IsAuthenticated){
       content =  <Vault />;

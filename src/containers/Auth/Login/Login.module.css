@@ -7,3 +7,11 @@
     padding: 10px;
     box-sizing: border-box;
 }
+
+.Input{
+    margin: auto 10px;
+}
+
+.Button{
+    width: 100%;
+}
