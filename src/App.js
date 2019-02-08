@@ -4,13 +4,28 @@ import Vault from './containers/Vault/Vault';
 import firebase from 'firebase';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      initialize: true,
+      authenticatied: false
+    };
+  }
+
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged((user) => {
+      this.setState({
+        authenticatied: user ? true : false,
+      });
+    });
+  }
+
   render() {
-    console.log(firebase.auth().currentUser);
-    let content = firebase.auth().currentUser ? <Vault /> : <Login />;
+    let content = this.state.authenticatied ? <Vault /> : <Login />;
     return (
-      <div>
+      <React.Fragment>
         {content}
-      </div>
+      </React.Fragment>
     );
   }
 }

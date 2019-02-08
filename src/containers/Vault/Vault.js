@@ -32,16 +32,27 @@ export class Vault extends Component {
       <React.Fragment>
         <Toolbar>
           <Item>
-            <Button text='Open Selected Account Detail' onClick={this.openAccountButtonCLickHandle} />
+            <Button 
+              className={classes.Button}
+              text='Open Selected Account Detail' 
+              onClick={this.openAccountButtonCLickHandle} 
+              icon={'folder'} height={'75px'}
+              render={(btn) => 
+                <div className={classes.Button}>
+                  <i className={'dx-icon-'+btn.icon} height={'50px'} width={'50px'} />
+                  <p>Open Selected</p>
+                  <p>Account Detail</p>
+                </div>}
+            />
           </Item>
           <Item>
-            <Button text='Add New Account' onClick={this.newAccountButtonCLickHandle} />
+            <Button text='Add New Account' onClick={this.newAccountButtonCLickHandle} icon={'add'}/>
           </Item>
           <Item>
-            <Button text='Edit Selected Account' onClick={this.editAccountButtonCLickHandle} />
+            <Button text='Edit Selected Account' onClick={this.editAccountButtonCLickHandle} icon={'edit'}/>
           </Item>
           <Item>
-            <Button text='Delete Selected Account' onClick={this.deleteAccountButtonCLickHandle} />
+            <Button text='Delete Selected Account' onClick={this.deleteAccountButtonCLickHandle} icon={'remove'}/>
           </Item>
         </Toolbar>
         <VaultGrid onSelectedChanged={this.onSelectedChangedHandle} />
@@ -104,7 +115,7 @@ export class Vault extends Component {
     });
   }
 
-  deleteSelectedAccount(){
+  deleteSelectedAccount() {
     firebase.database().ref('vault/' + this.state.selectedId).remove((error) => {
       if (error) {
         dxAlert(error);
@@ -118,6 +129,7 @@ export class Vault extends Component {
   deleteAccountButtonCLickHandle(e) {
     dxConfirm('Do you want to delete selected record?', 'Delete record', this.deleteSelectedAccount);
   }
+
 }
 
 export default Vault;
