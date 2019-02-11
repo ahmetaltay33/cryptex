@@ -21,10 +21,10 @@ const ToolbarButton = props => {
   }
   return (
     <Button
-      className={classes.Button}
       onClick={props.onClick}
       height={props.height ? props.height : '85px'}
       width={props.width ? props.width : '100%'}
+      type={props.type ? props.type : 'normal'}
       render={(btn) =>
         <div className={'dx-button-content ' + classes.ButtonText}>
           {icon}
@@ -42,7 +42,8 @@ ToolbarButton.propTypes = {
   height: PropTypes.string,
   width: PropTypes.string,
   iconUrl: PropTypes.string,
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
+  type: PropTypes.oneOf(['back', 'danger', 'default', 'normal', 'success'])
 };
 
 export default ToolbarButton;

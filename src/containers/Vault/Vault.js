@@ -19,10 +19,11 @@ export class Vault extends Component {
       selectedId: null,
       openMode: null
     };
-    this.openAccountButtonCLickHandle = this.openAccountButtonCLickHandle.bind(this);
-    this.newAccountButtonCLickHandle = this.newAccountButtonCLickHandle.bind(this);
-    this.editAccountButtonCLickHandle = this.editAccountButtonCLickHandle.bind(this);
-    this.deleteAccountButtonCLickHandle = this.deleteAccountButtonCLickHandle.bind(this);
+    this.openAccountButtonClickHandle = this.openAccountButtonClickHandle.bind(this);
+    this.newAccountButtonClickHandle = this.newAccountButtonClickHandle.bind(this);
+    this.editAccountButtonClickHandle = this.editAccountButtonClickHandle.bind(this);
+    this.deleteAccountButtonClickHandle = this.deleteAccountButtonClickHandle.bind(this);
+    this.signOutButtonClickHandle = this.signOutButtonClickHandle.bind(this);
     this.onSelectedChangedHandle = this.onSelectedChangedHandle.bind(this);
     this.hideInfo = this.hideInfo.bind(this);
     this.deleteSelectedAccount = this.deleteSelectedAccount.bind(this);
@@ -33,7 +34,7 @@ export class Vault extends Component {
       <React.Fragment>
         <Toolbar height="100px">
           <Item>
-            <ToolbarButton icon="folder" onClick={this.openAccountButtonCLickHandle} >
+            <ToolbarButton icon="folder" onClick={this.openAccountButtonClickHandle} >
               Open<br />Selected
             </ToolbarButton>
           </Item>
@@ -41,18 +42,26 @@ export class Vault extends Component {
             <ToolbarSeparator />
           </Item>
           <Item>
-            <ToolbarButton icon="add" onClick={this.newAccountButtonCLickHandle} >
+            <ToolbarButton icon="add" onClick={this.newAccountButtonClickHandle} >
               Add<br />New
             </ToolbarButton>
           </Item>
           <Item>
-            <ToolbarButton icon="edit" onClick={this.editAccountButtonCLickHandle} >
+            <ToolbarButton icon="edit" onClick={this.editAccountButtonClickHandle} >
               Edit<br />Selected
             </ToolbarButton>
           </Item>
           <Item>
-            <ToolbarButton icon="remove" onClick={this.deleteAccountButtonCLickHandle} >
+            <ToolbarButton icon="remove" onClick={this.deleteAccountButtonClickHandle}>
               Delete<br />Selected
+            </ToolbarButton>
+          </Item>
+          <Item>
+            <ToolbarSeparator />
+          </Item>
+          <Item>
+            <ToolbarButton icon="runner" onClick={this.signOutButtonClickHandle} type="danger">
+              Sign<br />Out
             </ToolbarButton>
           </Item>
         </Toolbar>
@@ -91,7 +100,7 @@ export class Vault extends Component {
     }
   }
 
-  openAccountButtonCLickHandle(e) {
+  openAccountButtonClickHandle(e) {
     this.setState({
       openMode: 'open',
       popupVisible: true,
@@ -99,7 +108,7 @@ export class Vault extends Component {
     });
   }
 
-  newAccountButtonCLickHandle(e) {
+  newAccountButtonClickHandle(e) {
     this.setState({
       openMode: 'new',
       popupVisible: true,
@@ -107,7 +116,7 @@ export class Vault extends Component {
     });
   }
 
-  editAccountButtonCLickHandle(e) {
+  editAccountButtonClickHandle(e) {
     this.setState({
       openMode: 'edit',
       popupVisible: true,
@@ -126,8 +135,17 @@ export class Vault extends Component {
     });
   }
 
-  deleteAccountButtonCLickHandle(e) {
+  deleteAccountButtonClickHandle(e) {
     dxConfirm('Do you want to delete selected record?', 'Delete record', this.deleteSelectedAccount);
+  }
+
+  signOut() {
+    firebase.auth().signOut()
+      .then(dxAlert('Sign Out successfull'));
+  }
+
+  signOutButtonClickHandle(e) {
+    dxConfirm('Do you want to sign ou from cryptex?', 'Sign Out', this.signOut);
   }
 
 }
