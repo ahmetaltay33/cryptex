@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import classes from './Vault.module.css';
-import Button from 'devextreme-react/button';
 import Toolbar, { Item } from 'devextreme-react/toolbar';
 import Account from '../../components/Account/Account';
 import VaultGrid from '../../components/Vault/Vault';
@@ -8,6 +7,7 @@ import { Popup } from 'devextreme-react/popup';
 import firebase from 'firebase';
 import ScrollView from 'devextreme-react/scroll-view';
 import { dxConfirm, dxNotify, dxAlert } from '../../shared/dxUtility';
+import ToolbarButton from '../../components/UI/ToolbarButton/ToolbarButton';
 
 export class Vault extends Component {
   constructor(props) {
@@ -30,29 +30,22 @@ export class Vault extends Component {
   render() {
     return (
       <React.Fragment>
-        <Toolbar>
+        <Toolbar height="100px">
           <Item>
-            <Button 
-              className={classes.Button}
-              text='Open Selected Account Detail' 
-              onClick={this.openAccountButtonCLickHandle} 
-              icon={'folder'} height={'75px'}
-              render={(btn) => 
-                <div className={classes.Button}>
-                  <i className={'dx-icon-'+btn.icon} height={'50px'} width={'50px'} />
-                  <p>Open Selected</p>
-                  <p>Account Detail</p>
-                </div>}
-            />
+            <ToolbarButton text="Open Selected Account Detail" icon="folder" onClick={this.openAccountButtonCLickHandle} >
+            </ToolbarButton>
           </Item>
           <Item>
-            <Button text='Add New Account' onClick={this.newAccountButtonCLickHandle} icon={'add'}/>
+            <ToolbarButton text="Add New Account" icon="add" onClick={this.newAccountButtonCLickHandle} >
+            </ToolbarButton>
           </Item>
           <Item>
-            <Button text='Edit Selected Account' onClick={this.editAccountButtonCLickHandle} icon={'edit'}/>
+            <ToolbarButton text="Edit Selected Account" icon="edit" onClick={this.editAccountButtonCLickHandle} >
+            </ToolbarButton>
           </Item>
           <Item>
-            <Button text='Delete Selected Account' onClick={this.deleteAccountButtonCLickHandle} icon={'remove'}/>
+            <ToolbarButton text="Delete Selected Account" icon="remove" onClick={this.deleteAccountButtonCLickHandle} >
+            </ToolbarButton>
           </Item>
         </Toolbar>
         <VaultGrid onSelectedChanged={this.onSelectedChangedHandle} />
