@@ -8,6 +8,7 @@ import firebase from 'firebase';
 import ScrollView from 'devextreme-react/scroll-view';
 import { dxConfirm, dxNotify, dxAlert } from '../../shared/dxUtility';
 import ToolbarButton from '../../components/UI/ToolbarButton/ToolbarButton';
+import ToolbarSeparator from '../../components/UI/ToolbarSeparator/ToolbarSeparator';
 
 export class Vault extends Component {
   constructor(props) {
@@ -32,25 +33,31 @@ export class Vault extends Component {
       <React.Fragment>
         <Toolbar height="100px">
           <Item>
-            <ToolbarButton text="Open Selected Account Detail" icon="folder" onClick={this.openAccountButtonCLickHandle} >
+            <ToolbarButton icon="folder" onClick={this.openAccountButtonCLickHandle} >
+              Open<br />Selected
             </ToolbarButton>
           </Item>
           <Item>
-            <ToolbarButton text="Add New Account" icon="add" onClick={this.newAccountButtonCLickHandle} >
+            <ToolbarSeparator />
+          </Item>
+          <Item>
+            <ToolbarButton icon="add" onClick={this.newAccountButtonCLickHandle} >
+              Add<br />New
             </ToolbarButton>
           </Item>
           <Item>
-            <ToolbarButton text="Edit Selected Account" icon="edit" onClick={this.editAccountButtonCLickHandle} >
+            <ToolbarButton icon="edit" onClick={this.editAccountButtonCLickHandle} >
+              Edit<br />Selected
             </ToolbarButton>
           </Item>
           <Item>
-            <ToolbarButton text="Delete Selected Account" icon="remove" onClick={this.deleteAccountButtonCLickHandle} >
+            <ToolbarButton icon="remove" onClick={this.deleteAccountButtonCLickHandle} >
+              Delete<br />Selected
             </ToolbarButton>
           </Item>
         </Toolbar>
         <VaultGrid onSelectedChanged={this.onSelectedChangedHandle} />
         <Popup
-          className={classes.Popup}
           visible={this.state.popupVisible}
           onHiding={this.hideInfo}
           dragEnabled={false}
