@@ -1,17 +1,40 @@
-.Login{
-    margin: 20px auto;
+.Container{
+    margin: 10% auto;
     width: 80%;
     text-align: center;
     box-shadow: 0 2px 3px #ccc;
     border: 1px solid #eee;
-    padding: 10px;
-    box-sizing: border-box;
+    padding: 0px 10px 0px 10px;    
+}
+
+.VPanel{
+    margin: 10px auto;
+}
+
+.HPanel{
+    margin: 10px auto;
+    text-align: left;
+    display: flex;
+}
+
+.Label{
+    width: 25%;
+    text-align: center;
+    align-self: center;
 }
 
 .Input{
-    
+    margin: 11px auto;
+    width: 75%;
 }
 
 .Button{
-    
+    width: 100%;
+    margin: 5px;
+}
+
+.SignIn{
+}
+
+.SignUp{
 }

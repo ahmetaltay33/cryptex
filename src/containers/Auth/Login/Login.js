@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
-import { TextBox, Button } from 'devextreme-react';
-import Box, { Item } from 'devextreme-react/box';
+import { TextBox, Button, ValidationSummary } from 'devextreme-react';
 import { Validator, RequiredRule, CompareRule, EmailRule, PatternRule, StringLengthRule, RangeRule } from 'devextreme-react/validator';
 import classes from './Login.module.css';
 import firebase from 'firebase';
 import { dxAlert } from '../../../shared/dxUtility';
+import Label from '../../../components/UI/Label/Label';
 
 export class login extends Component {
-  //static propTypes = {
-  //}
   constructor(props) {
     super(props);
     this.state = {
@@ -17,70 +15,62 @@ export class login extends Component {
     };
     this.eMailChangeHandle = this.eMailChangeHandle.bind(this);
     this.passwordChangeHandle = this.passwordChangeHandle.bind(this);
-    this.loginClickHandle = this.loginClickHandle.bind(this);
-    this.checkUserClickHandle = this.checkUserClickHandle.bind(this);
-    this.checkSignOutClickHandle = this.checkSignOutClickHandle.bind(this);
+    this.onFormSubmit = this.onFormSubmit.bind(this);
+    this.signUpClickHandler = this.signUpClickHandler.bind(this);
   }
 
   render() {
     return (
-      <React.Fragment>
-        <Box direction={'col'} width={'100%'} height={230} crossAlign="center" align="center">
-          <Item ratio={1}>
-            <header>Login Form</header>
-          </Item>
-          <Item ratio={1}>
-            <TextBox
-              className={classes.Input}
-              //value={this.state.userName}
-              onValueChanged={this.eMailChangeHandle}
-              valueChangeEvent='input'
-              mode='email'
-              //validationError='E-mail address is not valid!'
-              validationMessageMode='auto'
-              maxLength='100'>
-              <Validator>
-                <RequiredRule message={'Email is required'} />
-                <EmailRule message={'Email is invalid'} />
-              </Validator>
-            </TextBox>
-          </Item>
-          <Item ratio={1}>
-            <TextBox
-              className={classes.Input}
-              //value={this.state.password}
-              onValueChanged={this.passwordChangeHandle}
-              valueChangeEvent='input'
-              mode='password'
-              maxLength='10'>
-              <Validator>
-                <RequiredRule message={'Password is required'} />
-              </Validator>
-            </TextBox>
-          </Item>
-          <Item ratio={1}>
+      <form onSubmit={this.onFormSubmit}>
+        <div className={classes.Container}>
+          <div className={classes.VPanel}>
+            <header><h5>Login Form</h5></header>
+            <div className={classes.HPanel}>
+              <Label className={classes.Label}>E-Mail Address</Label>
+              <TextBox
+                className={classes.Input}
+                stylingMode="filled"
+                onValueChanged={this.eMailChangeHandle}
+                valueChangeEvent="input"
+                mode="email"
+                placeholder="E-mail address"
+                validationMessageMode="auto">
+                <Validator>
+                  <RequiredRule message={'Email is required'} />
+                  <EmailRule message={'Email is invalid'} />
+                </Validator>
+              </TextBox>
+            </div>
+            <div className={classes.HPanel}>
+              <Label className={classes.Label}>Password</Label>
+              <TextBox
+                className={classes.Input}
+                stylingMode="filled"
+                onValueChanged={this.passwordChangeHandle}
+                placeholder="Password"
+                valueChangeEvent="input"
+                mode="password">
+                <Validator>
+                  <RequiredRule message={'Password is required'} />
+                </Validator>
+              </TextBox>
+            </div>
+          </div>
+          <ValidationSummary />
+          <div className={classes.HPanel}>
             <Button
-              className={classes.Button}
+              className={classes.Button + ' ' + classes.SignIn}
+              useSubmitBehavior={true}
               text='Sign In'
-              onClick={this.loginClickHandle}
               type={'success'} />
-          </Item>
-          <Item ratio={1}>
             <Button
-              className={classes.Button}
-              text='Current User'
-              onClick={this.checkUserClickHandle}
+              className={classes.Button + ' ' + classes.SignUp}
+              text='Sign Up'
+              onClick={this.signUpClickHandler}
               type={'default'} />
-          </Item>
-          <Item ratio={1}>
-            <Button
-              className={classes.Button}
-              text='Sign Out'
-              onClick={this.checkSignOutClickHandle}
-              type={'danger'} />
-          </Item>
-        </Box>
-      </React.Fragment>
+          </div>
+        </div>
+      </form>
     );
   }
 
@@ -96,31 +86,19 @@ export class login extends Component {
     });
   }
 
-  loginClickHandle(e) {
+  onFormSubmit(e) {
     firebase.auth().signInWithEmailAndPassword(this.state.eMail, this.state.password)
       .then(response => {
-        dxAlert('UID: ' + response.user.uid, 'Sign In Successfully');
+        console.log('UID: ' + response.user.uid, 'Sign In Successfully');
       })
       .catch(error => {
         dxAlert(error.message, error.code);
       });
+    e.preventDefault();
   }
 
-  checkUserClickHandle(e) {
-    if(firebase.auth().currentUser)
-      dxAlert('UID: ' + firebase.auth().currentUser.uid, 'Current User');
-    else 
-      dxAlert('Not found', 'Current User');
-  }
-
-  checkSignOutClickHandle(e) {
-    firebase.auth().signOut()
-      .then(response => {
-        dxAlert('Successfully', 'Sign Out');
-      })
-      .catch(error => {
-        dxAlert(error.message, error.code);
-      });
+  signUpClickHandler(e) {
+    dxAlert('Users signs up here!!', 'Sign Up');
   }
 }
 
