@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import classes from './Vault.module.css';
 import Toolbar, { Item } from 'devextreme-react/toolbar';
 import Account from '../../components/Account/Account';
@@ -9,8 +9,15 @@ import ScrollView from 'devextreme-react/scroll-view';
 import { dxConfirm, dxNotify, dxAlert } from '../../shared/dxUtility';
 import ToolbarButton from '../../components/UI/ToolbarButton/ToolbarButton';
 import ToolbarSeparator from '../../components/UI/ToolbarSeparator/ToolbarSeparator';
+import VaultList from '../../components/Mobile/VaultList/VaultList';
+import Responsive from 'react-responsive';
 
-export class Vault extends Component {
+const Desktop = props => <Responsive {...props} minWidth={992} />;
+const Tablet = props => <Responsive {...props} minWidth={768} maxWidth={991} />;
+const Mobile = props => <Responsive {...props} maxWidth={767} />;
+const Default = props => <Responsive {...props} minWidth={768} />;
+
+export class Vault extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -30,6 +37,7 @@ export class Vault extends Component {
   }
 
   render() {
+    console.log('Vault rendered');
     return (
       <React.Fragment>
         <Toolbar height="100px">
@@ -65,7 +73,12 @@ export class Vault extends Component {
             </ToolbarButton>
           </Item>
         </Toolbar>
-        <VaultGrid onSelectedChanged={this.onSelectedChangedHandle} />
+        <Mobile>
+          <VaultList onSelectedChanged={this.onSelectedChangedHandle} />
+        </Mobile>
+        <Default>
+          <VaultGrid onSelectedChanged={this.onSelectedChangedHandle} />
+        </Default>
         <Popup
           visible={this.state.popupVisible}
           onHiding={this.hideInfo}
@@ -92,12 +105,10 @@ export class Vault extends Component {
     });
   }
 
-  onSelectedChangedHandle(data) {
-    if (data) {
-      this.setState({
-        selectedId: data.Id
-      });
-    }
+  onSelectedChangedHandle(id) {
+    this.setState({
+      selectedId: id
+    });
   }
 
   openAccountButtonClickHandle(e) {

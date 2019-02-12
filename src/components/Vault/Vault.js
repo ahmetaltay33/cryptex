@@ -1,16 +1,17 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import DataGrid, { Column, ColumnChooser, ColumnFixing } from 'devextreme-react/data-grid';
 import firebase from 'firebase';
 import { generateIdFieldFetchedData } from '../../shared/utility';
 import PropTypes from 'prop-types';
 
-export class Vault extends Component {
+export class Vault extends PureComponent {
   constructor(props) {
     super(props);
 
     this.state = {
-      records: {},
-      accountTypes: {}
+      records: null,
+      accountTypes: null,
+      selectedItemKey: null
     };
 
     this.onSelectionChanged = this.onSelectionChanged.bind(this);
@@ -23,7 +24,7 @@ export class Vault extends Component {
       this.setState({
         accountTypes: accountTypesData
       });
-    });    
+    });
     const uid = firebase.auth().currentUser.uid;
     const vaultReq = firebase.database().ref('vault').child(uid);
     vaultReq.on('value', (snapshot) => {
@@ -35,6 +36,7 @@ export class Vault extends Component {
   }
 
   render() {
+    console.log('VaultGrid rendered');
     return (
       <React.Fragment>
         <DataGrid
@@ -54,7 +56,7 @@ export class Vault extends Component {
         >
           <ColumnChooser enabled={true} />
           <ColumnFixing enabled={true} />
-          <Column dataField={'Id'} caption={'Key'} visible={false}/>
+          <Column dataField={'Id'} caption={'Key'} visible={false} />
           <Column dataField={'AccountType'} caption={'Account Type'}
             lookup={{
               dataSource: this.state.accountTypes,
@@ -78,7 +80,13 @@ export class Vault extends Component {
 
   onSelectionChanged({ selectedRowsData }) {
     const data = selectedRowsData[0];
-    this.props.onSelectedChanged(data);
+    if(!data)
+      return;
+    this.setState({
+      selectedItemKey: data.Id
+    });
+    if (this.props.onSelectedChanged)
+      this.props.onSelectedChanged(this.state.selectedItemKey);
   }
 }
 
