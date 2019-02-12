@@ -23,41 +23,41 @@ export class login extends Component {
     return (
       <form onSubmit={this.onFormSubmit}>
         <div className={classes.Container}>
-          <div className={classes.VPanel}>
-            <header><h5>Login Form</h5></header>
-            <div className={classes.HPanel}>
-              <Label className={classes.Label}>E-Mail Address</Label>
-              <TextBox
-                className={classes.Input}
-                stylingMode="filled"
-                onValueChanged={this.eMailChangeHandle}
-                valueChangeEvent="input"
-                mode="email"
-                placeholder="E-mail address"
-                validationMessageMode="auto">
-                <Validator>
-                  <RequiredRule message={'Email is required'} />
-                  <EmailRule message={'Email is invalid'} />
-                </Validator>
-              </TextBox>
-            </div>
-            <div className={classes.HPanel}>
-              <Label className={classes.Label}>Password</Label>
-              <TextBox
-                className={classes.Input}
-                stylingMode="filled"
-                onValueChanged={this.passwordChangeHandle}
-                placeholder="Password"
-                valueChangeEvent="input"
-                mode="password">
-                <Validator>
-                  <RequiredRule message={'Password is required'} />
-                </Validator>
-              </TextBox>
-            </div>
+          <header className={classes.HeaderPanel}>
+            <h5>Login Form</h5>
+          </header>
+          <div className={classes.InputPanel}>
+            <Label className={classes.Label}>E-Mail Address</Label>
+            <TextBox
+              className={classes.Input}
+              stylingMode="filled"
+              onValueChanged={this.eMailChangeHandle}
+              valueChangeEvent="input"
+              mode="email"
+              placeholder="E-mail address"
+              validationMessageMode="auto">
+              <Validator>
+                <RequiredRule message={'Email is required'} />
+                <EmailRule message={'Email is invalid'} />
+              </Validator>
+            </TextBox>
+          </div>
+          <div className={classes.InputPanel}>
+            <Label className={classes.Label}>Password</Label>
+            <TextBox
+              className={classes.Input}
+              stylingMode="filled"
+              onValueChanged={this.passwordChangeHandle}
+              placeholder="Password"
+              valueChangeEvent="input"
+              mode="password">
+              <Validator>
+                <RequiredRule message={'Password is required'} />
+              </Validator>
+            </TextBox>
           </div>
           <ValidationSummary />
-          <div className={classes.HPanel}>
+          <div className={classes.ButtonPanel}>
             <Button
               className={classes.Button + ' ' + classes.SignIn}
               useSubmitBehavior={true}
@@ -70,7 +70,7 @@ export class login extends Component {
               type={'default'} />
           </div>
         </div>
-      </form>
+      </form >
     );
   }
 

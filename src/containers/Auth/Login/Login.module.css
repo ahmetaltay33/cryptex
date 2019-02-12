@@ -1,40 +1,67 @@
-.Container{
+.Container {
+  width: 100%;
+  text-align: center;
+}
+
+.HeaderPanel {
+  margin: -10px;
+}
+
+.InputPanel {
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-bottom: 25px;
+}
+
+.ButtonPanel{
+  display: block;
+  margin-top: 20px;
+  margin-left: 5px; 
+  margin-right: 5px;
+}
+
+.Label {
+  display: none;
+}
+
+.Input {
+  width: 100%;
+}
+
+.Button {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.SignIn {}
+
+.SignUp {}
+
+
+@media only screen and (min-width: 600px) {
+  .Container {
+    width: 600px;
     margin: 10% auto;
-    width: 80%;
-    text-align: center;
-    box-shadow: 0 2px 3px #ccc;
-    border: 1px solid #eee;
-    padding: 0px 10px 0px 10px;    
-}
-
-.VPanel{
-    margin: 10px auto;
-}
-
-.HPanel{
-    margin: 10px auto;
-    text-align: left;
+  }
+  .ButtonPanel{
     display: flex;
-}
-
-.Label{
+  }
+  .InputPanel{
+    display: flex;
+  }
+  .Label {
+    display: flex;
     width: 25%;
-    text-align: center;
     align-self: center;
-}
-
-.Input{
-    margin: 11px auto;
+    font-weight: bold;
+  }
+  .Input {
     width: 75%;
-}
-
-.Button{
-    width: 100%;
-    margin: 5px;
-}
-
-.SignIn{
-}
-
-.SignUp{
+  }
+  .SignIn{
+    margin-right: 5px;
+  }
+  .SignUp{
+    margin-left: 5px;
+  }
 }
