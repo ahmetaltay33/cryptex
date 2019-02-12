@@ -98,7 +98,13 @@ export class login extends Component {
   }
 
   signUpClickHandler(e) {
-    dxAlert('Users signs up here!!', 'Sign Up');
+    firebase.auth().createUserWithEmailAndPassword(this.state.eMail, this.state.password)
+      .then(response => {
+        console.log('UID: ' + response.user.uid, 'Sign In Successfully');
+      })
+      .catch(error => {
+        dxAlert(error.message, error.code);
+      });
   }
 }
 
