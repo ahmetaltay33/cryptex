@@ -34,7 +34,7 @@ export class login extends Component {
               onValueChanged={this.eMailChangeHandle}
               valueChangeEvent="input"
               mode="email"
-              placeholder="yourmailaddress@yourdomain.com"
+              placeholder="sample@domain.com"
               validationMessageMode="auto">
               <Validator>
                 <RequiredRule message={'Email is required'} />
@@ -48,7 +48,7 @@ export class login extends Component {
               className={classes.Input}
               stylingMode="filled"
               onValueChanged={this.passwordChangeHandle}
-              placeholder="Your password"
+              placeholder="Enter your password"
               valueChangeEvent="input"
               mode="password">
               <Validator>
