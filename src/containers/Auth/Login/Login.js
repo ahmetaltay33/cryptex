@@ -24,7 +24,7 @@ export class login extends Component {
       <form onSubmit={this.onFormSubmit}>
         <div className={classes.Container}>
           <header className={classes.HeaderPanel}>
-            <h5>Login Form</h5>
+            <h5>Cryptex Login</h5>
           </header>
           <div className={classes.InputPanel}>
             <Label className={classes.Label}>E-Mail Address</Label>
@@ -34,7 +34,7 @@ export class login extends Component {
               onValueChanged={this.eMailChangeHandle}
               valueChangeEvent="input"
               mode="email"
-              placeholder="E-mail address"
+              placeholder="yourmailaddress@yourdomain.com"
               validationMessageMode="auto">
               <Validator>
                 <RequiredRule message={'Email is required'} />
@@ -48,7 +48,7 @@ export class login extends Component {
               className={classes.Input}
               stylingMode="filled"
               onValueChanged={this.passwordChangeHandle}
-              placeholder="Password"
+              placeholder="Your password"
               valueChangeEvent="input"
               mode="password">
               <Validator>
