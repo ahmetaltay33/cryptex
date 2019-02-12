@@ -24,7 +24,6 @@ export class Vault extends Component {
     this.editAccountButtonClickHandle = this.editAccountButtonClickHandle.bind(this);
     this.deleteAccountButtonClickHandle = this.deleteAccountButtonClickHandle.bind(this);
     this.signOutButtonClickHandle = this.signOutButtonClickHandle.bind(this);
-    this.currentUserClickHandle = this.currentUserClickHandle.bind(this);
     this.onSelectedChangedHandle = this.onSelectedChangedHandle.bind(this);
     this.hideInfo = this.hideInfo.bind(this);
     this.deleteSelectedAccount = this.deleteSelectedAccount.bind(this);
@@ -59,11 +58,6 @@ export class Vault extends Component {
           </Item>
           <Item>
             <ToolbarSeparator />
-          </Item>
-          <Item>
-            <ToolbarButton icon="user" onClick={this.currentUserClickHandle} type="default">
-              Current User<br />Info
-            </ToolbarButton>
           </Item>
           <Item>
             <ToolbarButton icon="runner" onClick={this.signOutButtonClickHandle} type="danger">
@@ -147,9 +141,6 @@ export class Vault extends Component {
 
   signOut() {
     firebase.auth().signOut()
-      .then(
-        console.log('Successfully signed out')
-      )
       .catch(error => {
         dxAlert(error.message, error.code);
       });
@@ -158,14 +149,6 @@ export class Vault extends Component {
   signOutButtonClickHandle(e) {
     dxConfirm('Do you want to sign ou from cryptex?', 'Sign Out', this.signOut);
   }
-
-  currentUserClickHandle(e) {
-    if (firebase.auth().currentUser)
-      dxAlert('UID: ' + firebase.auth().currentUser.uid, 'Current User');
-    else
-      dxAlert('Not found', 'Current User');
-  }
-
 }
 
 export default Vault;
