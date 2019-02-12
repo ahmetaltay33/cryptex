@@ -17,13 +17,6 @@ export class Vault extends Component {
   }
 
   componentDidMount() {
-    const vaultReq = firebase.database().ref('vault');
-    vaultReq.on('value', (snapshot) => {
-      const vaultData = generateIdFieldFetchedData(snapshot.val());
-      this.setState({
-        records: vaultData
-      });
-    });
     const accountTypesReq = firebase.database().ref('account_types');
     accountTypesReq.once('value', (snapshot) => {
       const accountTypesData = generateIdFieldFetchedData(snapshot.val());
@@ -31,6 +24,14 @@ export class Vault extends Component {
         accountTypes: accountTypesData
       });
     });    
+    const uid = firebase.auth().currentUser.uid;
+    const vaultReq = firebase.database().ref('vault').child(uid);
+    vaultReq.on('value', (snapshot) => {
+      const vaultData = generateIdFieldFetchedData(snapshot.val());
+      this.setState({
+        records: vaultData
+      });
+    });
   }
 
   render() {

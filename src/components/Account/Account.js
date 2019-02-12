@@ -11,7 +11,7 @@ export class Account extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      accountTypes: [{ Id: 0, Name: 'Empty', Description: 'Empty' }],
+      accountTypes: null,
       data: this.getEmptyData()
     };
     this.onFormSubmit = this.onFormSubmit.bind(this);
@@ -42,7 +42,8 @@ export class Account extends Component {
       });
     }
     if ((this.props.mode !== 'new') && (this.props.accountId != null) && (prevProps.accountId != this.props.accountId)) {
-      const request = firebase.database().ref('vault/' + this.props.accountId);
+      const uid = firebase.auth().currentUser.uid;
+      const request = firebase.database().ref('vault').child(uid).child(this.props.accountId);
       request.once('value', (snapshot) => {
         const fetchedData = snapshot.val();
         this.setState({
@@ -53,13 +54,15 @@ export class Account extends Component {
   }
 
   componentDidMount() {
-    const request = firebase.database().ref('account_types');
-    request.once('value', (snapshot) => {
-      const fetchedData = generateIdFieldFetchedData(snapshot.val());
-      this.setState({
-        accountTypes: fetchedData
+    if (this.state.accountTypes == null) {
+      const request = firebase.database().ref('account_types');
+      request.once('value', (snapshot) => {
+        const fetchedData = generateIdFieldFetchedData(snapshot.val());
+        this.setState({
+          accountTypes: fetchedData
+        });
       });
-    });
+    }
   }
 
   render() {
@@ -147,10 +150,11 @@ export class Account extends Component {
   }
 
   onFormSubmit(e) {
+    const uid = firebase.auth().currentUser.uid;
     let key;
     switch (this.props.mode) {
       case 'new': {
-        key = firebase.database().ref().child('vault').push().key;
+        key = firebase.database().ref('vault').child(uid).push().key;
         break;
       }
       case 'edit': {
@@ -160,9 +164,8 @@ export class Account extends Component {
       default:
         return;
     }
-    let data = {};
-    data['/vault/' + key] = this.state.data;
-    firebase.database().ref().update(data, (error) => {
+    const data = { ...this.state.data };
+    firebase.database().ref('vault').child(uid).child(key).update(data, (error) => {
       if (error)
         dxAlert(error);
       else {

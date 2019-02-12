@@ -148,7 +148,7 @@ export class Vault extends Component {
   signOut() {
     firebase.auth().signOut()
       .then(
-        dxAlert('Successfully', 'Sign Out')
+        console.log('Successfully signed out')
       )
       .catch(error => {
         dxAlert(error.message, error.code);
