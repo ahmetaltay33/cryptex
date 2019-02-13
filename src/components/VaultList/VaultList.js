@@ -54,7 +54,7 @@ export class VaultList extends PureComponent {
   }
 
   onSelectedItemKeysChange(args) {
-    if(args.name === 'selectedItemKeys') {
+    if(args.name === 'selectedItemKeys' && args.value != this.state.selectedItemKeys) {
       this.setState({
         selectedItemKeys: args.value
       });

@@ -28,7 +28,6 @@ export class Vault extends PureComponent {
     this.signOutButtonClickHandle = this.signOutButtonClickHandle.bind(this);
     this.onSelectedChangedHandle = this.onSelectedChangedHandle.bind(this);
     this.hideInfo = this.hideInfo.bind(this);
-    this.deleteSelectedAccount = this.deleteSelectedAccount.bind(this);
   }
 
   render() {
@@ -155,8 +154,8 @@ export class Vault extends PureComponent {
     });
   }
 
-  deleteSelectedAccount() {
-    firebase.database().ref('vault/' + this.state.selectedId).remove((error) => {
+  deleteAccount(id) {
+    firebase.database().ref('vault').child(firebase.auth().currentUser.uid).child(id).remove((error) => {
       if (error) {
         dxAlert(error);
       }
@@ -170,8 +169,8 @@ export class Vault extends PureComponent {
     if (this.state.selectedId == null) {
       dxAlert('You must first select a record!', 'Record not found');
       return;
-    }    
-    dxConfirm('Do you want to delete selected record?', 'Delete record', this.deleteSelectedAccount);
+    }
+    dxConfirm('Do you want to delete selected record?', 'Delete record', () => this.deleteAccount(this.state.selectedId));
   }
 
   signOut() {
