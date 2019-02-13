@@ -88,7 +88,7 @@ export class Account extends Component {
             <RequiredRule message={'User name is required'} />
           </Validator>
         </TextBox>
-        <TextBox className={classes.Input} name='Password' mode='password' placeholder='Enter password' value={this.state.data.Password} valueChangeEvent='input' onValueChanged={this.onValueChangedHandle} readOnly={readOnlyMode} hoverStateEnabled={!readOnlyMode}>
+        <TextBox className={classes.Input} name='Password' mode='text' placeholder='Enter password' value={this.state.data.Password} valueChangeEvent='input' onValueChanged={this.onValueChangedHandle} readOnly={readOnlyMode} hoverStateEnabled={!readOnlyMode}>
           <Validator>
             <RequiredRule message={'Password is required'} />
           </Validator>
