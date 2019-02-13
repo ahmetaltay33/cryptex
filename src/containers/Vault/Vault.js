@@ -1,8 +1,7 @@
 import React, { PureComponent } from 'react';
-import classes from './Vault.module.css';
 import Toolbar, { Item } from 'devextreme-react/toolbar';
 import Account from '../../components/Account/Account';
-import VaultGrid from '../../components/Vault/Vault';
+import VaultGrid from '../../components/VaultGrid/VaultGrid';
 import { Popup } from 'devextreme-react/popup';
 import firebase from 'firebase';
 import ScrollView from 'devextreme-react/scroll-view';
