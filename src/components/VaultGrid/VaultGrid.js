@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import DataGrid, { Column, ColumnChooser, ColumnFixing } from 'devextreme-react/data-grid';
+import DataGrid, { Column, ColumnChooser, ColumnFixing, SearchPanel, GroupPanel, Grouping, LoadPanel, Export } from 'devextreme-react/data-grid';
 import firebase from 'firebase';
 import { generateIdFieldFetchedData } from '../../shared/utility';
 import PropTypes from 'prop-types';
@@ -11,10 +11,10 @@ export class Vault extends PureComponent {
     this.state = {
       records: null,
       accountTypes: null,
-      selectedItemKey: null
+      focusedRowKey: null
     };
 
-    this.onSelectionChanged = this.onSelectionChanged.bind(this);
+    this.onFocusedRowChanged = this.onFocusedRowChanged.bind(this);
   }
 
   componentDidMount() {
@@ -41,19 +41,25 @@ export class Vault extends PureComponent {
         <DataGrid
           keyExpr={'Id'}
           dataSource={this.state.records}
-          selection={{ mode: 'single' }}
           showBorders={true}
           hoverStateEnabled={true}
           allowColumnResizing={true}
           columnResizingMode='nextColumn'
           allowColumnReordering={true}
           columnAutoWidth={true}
-          onSelectionChanged={this.onSelectionChanged}
+          focusedRowEnabled={true}
+          focusedRowKey={this.state.focusedRowKey}
+          onFocusedRowChanged={this.onFocusedRowChanged}
           showColumnLines={true}
           showRowLines={true}
           rowAlternationEnabled={true}
         >
-          <ColumnChooser enabled={true} />
+          <Export enabled={true} fileName="vault"/>
+          <LoadPanel enabled={true} />
+          <ColumnChooser enabled={true} mode="select"/>
+          <GroupPanel visible={true} />
+          <Grouping autoExpandAll={false} />
+          <SearchPanel visible={true} highlightCaseSensitive={true} />
           <ColumnFixing enabled={true} />
           <Column dataField={'Id'} caption={'Key'} visible={false} />
           <Column dataField={'AccountType'} caption={'Account Type'}
@@ -77,15 +83,15 @@ export class Vault extends PureComponent {
     );
   }
 
-  onSelectionChanged({ selectedRowsData }) {
-    const data = selectedRowsData[0];
-    if(!data)
-      return;
-    this.setState({
-      selectedItemKey: data.Id
-    });
-    if (this.props.onSelectedChanged)
-      this.props.onSelectedChanged(this.state.selectedItemKey);
+  onFocusedRowChanged(e) {
+    const focusedRowKey = e.component.option('focusedRowKey');
+    if (focusedRowKey != this.state.focusedRowKey) {
+      this.setState({
+        focusedRowKey: focusedRowKey
+      });
+      if (this.props.onSelectedChanged)
+        this.props.onSelectedChanged(this.state.focusedRowKey);
+    }
   }
 }
 
