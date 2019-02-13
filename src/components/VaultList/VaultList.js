@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import List from 'devextreme-react/list';
 import firebase from 'firebase';
-import { generateIdFieldFetchedData } from '../../../shared/utility';
+import { generateIdFieldFetchedData } from '../../shared/utility';
 import VaultListItem from '../VaultListItem/VaultListItem';
 import PropTypes from 'prop-types';
 import ArrayStore from 'devextreme/data/array_store';
@@ -39,7 +39,6 @@ export class VaultList extends PureComponent {
   }
 
   render() {
-    console.log('VaultList rendered');
     return (
       <List
         dataSource={this.state.dataSource}
@@ -48,7 +47,7 @@ export class VaultList extends PureComponent {
         searchEnabled={true}
         searchMode="contains"
         selectionMode="single"
-        showSelectionControls={true}
+        //showSelectionControls={true}
         selectedItemKeys={this.state.selectedItemKeys}
         onOptionChanged={this.onSelectedItemKeysChange} />
     );

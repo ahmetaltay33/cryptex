@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import Toolbar, { Item } from 'devextreme-react/toolbar';
+import { Item } from 'devextreme-react/toolbar';
 import Account from '../../components/Account/Account';
 import VaultGrid from '../../components/VaultGrid/VaultGrid';
 import { Popup } from 'devextreme-react/popup';
@@ -8,13 +8,9 @@ import ScrollView from 'devextreme-react/scroll-view';
 import { dxConfirm, dxNotify, dxAlert } from '../../shared/dxUtility';
 import ToolbarButton from '../../components/UI/ToolbarButton/ToolbarButton';
 import ToolbarSeparator from '../../components/UI/ToolbarSeparator/ToolbarSeparator';
-import VaultList from '../../components/Mobile/VaultList/VaultList';
-import Responsive from 'react-responsive';
-
-const Desktop = props => <Responsive {...props} minWidth={992} />;
-const Tablet = props => <Responsive {...props} minWidth={768} maxWidth={991} />;
-const Mobile = props => <Responsive {...props} maxWidth={767} />;
-const Default = props => <Responsive {...props} minWidth={768} />;
+import VaultList from '../../components/VaultList/VaultList';
+import { Default, Mobile } from '../../components/UI/Responsive/Responsive';
+import Toolbar from '../../components/UI/Toolbar/Toolbar';
 
 export class Vault extends PureComponent {
   constructor(props) {
@@ -39,7 +35,7 @@ export class Vault extends PureComponent {
     console.log('Vault rendered');
     return (
       <React.Fragment>
-        <Toolbar height="100px">
+        <Toolbar>
           <Item>
             <ToolbarButton icon="folder" onClick={this.openAccountButtonClickHandle} >
               Open<br />Selected

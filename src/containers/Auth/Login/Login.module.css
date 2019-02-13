@@ -38,7 +38,7 @@
 
 .SignUp {}
 
-@media only screen and (min-width: 600px) {
+@media only screen and (min-width: 767px) {
   .Container {
     width: 600px;
     margin: 10% auto;

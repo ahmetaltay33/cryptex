@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Button from 'devextreme-react/button';
 import classes from './ToolbarButton.module.css';
+import { Default, Mobile } from '../Responsive/Responsive';
 
 const ToolbarButton = props => {
   let icon = null;
@@ -20,19 +21,30 @@ const ToolbarButton = props => {
       </React.Fragment>;
   }
   return (
-    <Button
-      onClick={props.onClick}
-      height={props.height ? props.height : '85px'}
-      width={props.width ? props.width : '100%'}
-      type={props.type ? props.type : 'normal'}
-      render={(btn) =>
-        <div className={'dx-button-content ' + classes.ButtonText}>
-          {icon}
-          <span className={'dx-button-text'}>
-            {props.text ? props.text : props.children}
-          </span>
-        </div>}
-    />
+    <React.Fragment>
+      <Default>
+        <Button
+          onClick={props.onClick}
+          height={props.height ? props.height : '85px'}
+          width={props.width ? props.width : '100%'}
+          type={props.type ? props.type : 'normal'}
+          render={(btn) =>
+            <div className={'dx-button-content ' + classes.ButtonText}>
+              {icon}
+              <span className={'dx-button-text'}>
+                {props.text ? props.text : props.children}
+              </span>
+            </div>}
+        />
+      </Default>
+      <Mobile>
+        <Button
+          onClick={props.onClick}
+          type={props.type ? props.type : 'normal'}
+          icon={props.icon ? props.icon : (props.iconUrl ? props.iconUrl : null)}
+        />
+      </Mobile>
+    </React.Fragment>
   );
 };
 

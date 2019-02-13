@@ -1,5 +1,7 @@
-.Vl {
-  border-left: 2px solid;
-  height: 75px !important;
-  margin: 2px
+@media only screen and (min-width: 767px) {
+  .Vl{
+    height: 75px !important;
+    border-left: 2px solid;
+    margin: 2px      
+  }
 }
