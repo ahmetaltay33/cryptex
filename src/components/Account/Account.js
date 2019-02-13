@@ -66,10 +66,10 @@ export class Account extends Component {
   }
 
   render() {
-    const saveDisabled = !(this.props.mode === 'new' || this.props.mode === 'edit');
+    const readOnlyMode = !(this.props.mode === 'new' || this.props.mode === 'edit');
     return (
       <form className={classes.Account} onSubmit={this.onFormSubmit}>
-        <SelectBox className={classes.Input} name='AccountType'
+        <SelectBox className={classes.Input} name='AccountType' 
           //defaultValue={this.state.accountTypes[0].Id}
           placeholder={'Choose Account Type'}
           dataSource={this.state.accountTypes}
@@ -77,38 +77,39 @@ export class Account extends Component {
           valueExpr={'Id'}
           value={this.state.data.AccountType}
           onValueChanged={this.onAccountTypeValueChangedHandle}
+          readOnly={readOnlyMode} hoverStateEnabled={!readOnlyMode}
         >
           <Validator>
             <RequiredRule message={'Account type is required'} />
           </Validator>
         </SelectBox>
-        <TextBox className={classes.Input} name='UserName' mode='text' placeholder='Enter user name' value={this.state.data.UserName} valueChangeEvent='input' onValueChanged={this.onValueChangedHandle}>
+        <TextBox className={classes.Input} name='UserName' mode='text' placeholder='Enter user name' value={this.state.data.UserName} valueChangeEvent='input' onValueChanged={this.onValueChangedHandle} readOnly={readOnlyMode} hoverStateEnabled={!readOnlyMode}>
           <Validator>
             <RequiredRule message={'User name is required'} />
           </Validator>
         </TextBox>
-        <TextBox className={classes.Input} name='Password' mode='password' placeholder='Enter password' value={this.state.data.Password} valueChangeEvent='input' onValueChanged={this.onValueChangedHandle}>
+        <TextBox className={classes.Input} name='Password' mode='password' placeholder='Enter password' value={this.state.data.Password} valueChangeEvent='input' onValueChanged={this.onValueChangedHandle} readOnly={readOnlyMode} hoverStateEnabled={!readOnlyMode}>
           <Validator>
             <RequiredRule message={'Password is required'} />
           </Validator>
         </TextBox>
-        <TextBox className={classes.Input} name='WebSite' mode='url' placeholder='Web Site' value={this.state.data.WebSite} valueChangeEvent='input' onValueChanged={this.onValueChangedHandle}>
+        <TextBox className={classes.Input} name='WebSite' mode='url' placeholder='Web Site' value={this.state.data.WebSite} valueChangeEvent='input' onValueChanged={this.onValueChangedHandle} readOnly={readOnlyMode} hoverStateEnabled={!readOnlyMode}>
         </TextBox>
-        <TextBox className={classes.Input} name='Email' mode='email' placeholder='E-Mail' value={this.state.data.Email} valueChangeEvent='input' onValueChanged={this.onValueChangedHandle}>
+        <TextBox className={classes.Input} name='Email' mode='email' placeholder='E-Mail' value={this.state.data.Email} valueChangeEvent='input' onValueChanged={this.onValueChangedHandle} readOnly={readOnlyMode} hoverStateEnabled={!readOnlyMode}>
           <Validator>
             <EmailRule message={'Email is invalid'} />
           </Validator>
         </TextBox>
-        <TextBox className={classes.Input} name='Phone' mode='tel' placeholder='Phone Number' maxLength={10} value={this.state.data.Phone} valueChangeEvent='input' onValueChanged={this.onValueChangedHandle}>
+        <TextBox className={classes.Input} name='Phone' mode='tel' placeholder='Phone Number' maxLength={10} value={this.state.data.Phone} valueChangeEvent='input' onValueChanged={this.onValueChangedHandle} readOnly={readOnlyMode} hoverStateEnabled={!readOnlyMode}>
           <Validator>
             <NumericRule message={'Phone number is invalid. You should enter only numeric value.'} />
           </Validator>
         </TextBox>
-        <TextArea className={classes.Input} name='Description' mode='text' placeholder='Enter description' value={this.state.data.Description} valueChangeEvent='input' onValueChanged={this.onValueChangedHandle} />
-        <DateBox className={classes.Input} name='UpdateTime' placeholder='Updated Time' displayFormat={'dd.MM.yyyy HH:mm'} type={'datetime'} showClearButton={true} useMaskBehavior={true} value={this.state.data.UpdateTime} onValueChanged={this.onUpdateTimeValueChangedHandle} />
-        <CheckBox className={classes.Input} name='Active' text='Active' defaultValue={true} value={this.state.data.Active} onValueChanged={this.onActiveValueChangedHandle} />
+        <TextArea className={classes.Input} name='Description' mode='text' placeholder='Enter description' value={this.state.data.Description} valueChangeEvent='input' onValueChanged={this.onValueChangedHandle} readOnly={readOnlyMode} hoverStateEnabled={!readOnlyMode}/>
+        <DateBox className={classes.Input} name='UpdateTime' placeholder='Updated Time' displayFormat={'dd.MM.yyyy HH:mm'} type={'datetime'} showClearButton={true} useMaskBehavior={true} value={this.state.data.UpdateTime} onValueChanged={this.onUpdateTimeValueChangedHandle} readOnly={readOnlyMode} hoverStateEnabled={!readOnlyMode}/>
+        <CheckBox className={classes.Input} name='Active' text='Active' defaultValue={true} value={this.state.data.Active} onValueChanged={this.onActiveValueChangedHandle} readOnly={readOnlyMode} hoverStateEnabled={!readOnlyMode}/>
         <ValidationSummary id={'summary'} />
-        <Button className={classes.Button} text='Save' type='success' useSubmitBehavior={true} disabled={saveDisabled} />
+        <Button className={classes.Button} text='Save' type='success' useSubmitBehavior={true} disabled={readOnlyMode}/>
       </form>
     );
   }

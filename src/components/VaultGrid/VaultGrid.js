@@ -36,7 +36,6 @@ export class Vault extends PureComponent {
   }
 
   render() {
-    console.log('VaultGrid rendered');
     return (
       <React.Fragment>
         <DataGrid

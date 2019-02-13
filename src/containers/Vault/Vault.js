@@ -32,7 +32,10 @@ export class Vault extends PureComponent {
   }
 
   render() {
-    console.log('Vault rendered');
+    const accountContent =
+      <ScrollView>
+        <Account mode={this.state.openMode} accountId={this.state.accountId} onFormSubmitted={this.hideInfo} />
+      </ScrollView>;
     return (
       <React.Fragment>
         <Toolbar>
@@ -70,25 +73,39 @@ export class Vault extends PureComponent {
         </Toolbar>
         <Mobile>
           <VaultList onSelectedChanged={this.onSelectedChangedHandle} />
+          <Popup
+            visible={this.state.popupVisible}
+            onHiding={this.hideInfo}
+            dragEnabled={false}
+            showCloseButton={true}
+            closeOnBackButton={true}
+            closeOnOutsideClick={true}
+            title={'Account Detail'}
+            showTitle={true}
+            fullScreen={true}
+          >
+            {accountContent}
+          </Popup>
         </Mobile>
         <Default>
           <VaultGrid onSelectedChanged={this.onSelectedChangedHandle} />
+          <Popup
+            visible={this.state.popupVisible}
+            onHiding={this.hideInfo}
+            dragEnabled={false}
+            showCloseButton={true}
+            closeOnBackButton={true}
+            closeOnOutsideClick={true}
+            title={'Account Detail'}
+            showTitle={true}
+            fullScreen={false}
+            minHeight={'570'}
+            height={'50%'}
+            width={'50%'}
+          >
+            {accountContent}
+          </Popup>
         </Default>
-        <Popup
-          visible={this.state.popupVisible}
-          onHiding={this.hideInfo}
-          dragEnabled={false}
-          closeOnOutsideClick={true}
-          showTitle={true}
-          title={'Account Detail'}
-          minHeight={'570'}
-          height={'50%'}
-          width={'50%'}
-        >
-          <ScrollView>
-            <Account mode={this.state.openMode} accountId={this.state.accountId} onFormSubmitted={this.hideInfo} />
-          </ScrollView>
-        </Popup>
       </React.Fragment>
     );
   }
@@ -107,6 +124,10 @@ export class Vault extends PureComponent {
   }
 
   openAccountButtonClickHandle(e) {
+    if (this.state.selectedId == null) {
+      dxAlert('You must first select a record!', 'Record not found');
+      return;
+    }
     this.setState({
       openMode: 'open',
       popupVisible: true,
@@ -123,6 +144,10 @@ export class Vault extends PureComponent {
   }
 
   editAccountButtonClickHandle(e) {
+    if (this.state.selectedId == null) {
+      dxAlert('You must first select a record!', 'Record not found');
+      return;
+    }
     this.setState({
       openMode: 'edit',
       popupVisible: true,
@@ -142,6 +167,10 @@ export class Vault extends PureComponent {
   }
 
   deleteAccountButtonClickHandle(e) {
+    if (this.state.selectedId == null) {
+      dxAlert('You must first select a record!', 'Record not found');
+      return;
+    }    
     dxConfirm('Do you want to delete selected record?', 'Delete record', this.deleteSelectedAccount);
   }
 
