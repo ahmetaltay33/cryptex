@@ -3,7 +3,7 @@ Simple Password Manager
 
 Live demo: https://cryptex-72ee5.firebaseapp.com
 
-Attention please.don't enter real passwords or account information. this url only using for demonstration. i will delete entering data from database periodically.
+Attention please. Don't enter real passwords or account information. this url only using for demonstration. i will delete entering data from database periodically.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
